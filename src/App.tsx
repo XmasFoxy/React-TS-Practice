@@ -1,7 +1,7 @@
 import { useState } from 'react'
+import { Link } from '@tanstack/react-router'
 import { ProductCard } from './components/ProductCard'
 import { products, flavors, type ProductFilter } from './data/products'
-import cartIcon from './assets/bag.svg'
 import cafeImage from './assets/cafe-ice-cream.png'
 import colorfulIceCreamImage from './assets/colorful-ice-cream.png'
 import dessertsImage from './assets/desserts.png'
@@ -11,13 +11,10 @@ import girlWithIceCreamImage from './assets/girl-with-ice-cream.png'
 import heroImage from './assets/choco-in-vafel.png'
 import heroStar from './assets/Star 1.svg'
 import heroStrawberries from './assets/two-strawberries.png'
-import iceCreamLogo from './assets/ice-cream-icon.svg'
 import locationIcon from './assets/location.svg'
 import mailBagImage from './assets/mail-bag.png'
 import paleoIcon from './assets/avocado_7409338 1.svg'
 import restaurantImage from './assets/restaurant-ice-cream.png'
-import profileIcon from './assets/profile.svg'
-import searchIcon from './assets/search-normal.svg'
 import shopIcon from './assets/shop.svg'
 import strawberryImage from './assets/strawberry-ice-cream.png'
 import vehicleIcon from './assets/vehicle.svg'
@@ -27,12 +24,12 @@ import ketoIcon from './assets/avocado_9952003 1.svg'
 import purpleIceCreamImage from './assets/purple-ice-cream.png'
 import vanillaNoteImage from './assets/raspberry-ice-cream.png'
 import strawberryNoteImage from './assets/strawberry-ellipse.png'
-import './App.css'
+import { useCart } from './context/CartContext'
 
 function App() {
 	const [activeFilter, setActiveFilter] = useState<ProductFilter>('all')
-	const [cartCount, setCartCount] = useState(0)
 	const [favoriteIds, setFavoriteIds] = useState<number[]>([])
+	const { addToCart } = useCart()
 
 	const visibleProducts = products.filter((product) => {
 		if (activeFilter === 'new') {
@@ -46,10 +43,6 @@ function App() {
 		return true
 	})
 
-	const cartLabel = cartCount === 1
-		? 'Shopping bag, 1 item'
-		: `Shopping bag, ${cartCount} items`
-
 	function toggleFavorite(productId: number) {
 		setFavoriteIds((currentIds) => {
 			if (currentIds.includes(productId)) {
@@ -61,48 +54,7 @@ function App() {
 	}
 
 	return (
-		<div className="storefront">
-			<div className="announcement">
-				Free delivery on orders over $50 <span>— Shop your favorite flavors</span>
-			</div>
-
-			<header className="site-header">
-				<a className="brand" href="#home" aria-label="Cuisine Ice Cream home">
-					<span className="brand-icon" aria-hidden="true">
-						<img src={iceCreamLogo} alt="" />
-					</span>
-
-					<span className="brand-name">
-						Cuisine
-						<strong>Ice Cream</strong>
-					</span>
-				</a>
-
-				<nav className="main-navigation" aria-label="Main navigation">
-					<a href="#home">Home</a>
-					<a href="#products">Shop</a>
-					<a href="#story">Our Story</a>
-					<a href="#journal">Journal</a>
-					<a href="#footer">Contact</a>
-				</nav>
-
-				<div className="header-actions">
-					<button className="icon-button" type="button" aria-label="Search">
-						<img src={searchIcon} alt="" />
-					</button>
-
-					<button className="icon-button account-button" type="button" aria-label="Your account">
-						<img src={profileIcon} alt="" />
-					</button>
-
-					<a className="cart-button" href="#products" aria-label={cartLabel}>
-						<img src={cartIcon} alt="" />
-						<span className="cart-count">{cartCount}</span>
-					</a>
-				</div>
-			</header>
-
-			<main>
+		<main className="home-page">
 				<section className="hero-section" id="home">
 					<div className="hero-copy">
 						<p className="eyebrow">A little scoop of happiness</p>
@@ -243,16 +195,16 @@ function App() {
 								<ProductCard
 									isFavorite={favoriteIds.includes(product.id)}
 									key={product.id}
-									onAddToCart={() => setCartCount((count) => count + 1)}
+									onAddToCart={() => addToCart(product.id)}
 									onToggleFavorite={() => toggleFavorite(product.id)}
 									product={product}
 								/>
 							))}
 						</div>
 
-						<a className="button button-pink products-cta" href="#products">
+						<Link className="button button-pink products-cta" to="/catalog">
 							View all flavors <img className="arrow-icon" src={arrowIcon} alt="" />
-						</a>
+						</Link>
 					</div>
 				</section>
 
@@ -354,7 +306,7 @@ function App() {
 								<ProductCard
 									isFavorite={favoriteIds.includes(product.id)}
 									key={product.id}
-									onAddToCart={() => setCartCount((count) => count + 1)}
+									onAddToCart={() => addToCart(product.id)}
 									onToggleFavorite={() => toggleFavorite(product.id)}
 									product={product}
 								/>
@@ -498,35 +450,7 @@ function App() {
 						<img src={employeeImage} alt="" />
 					</div>
 				</section>
-			</main>
-
-			<footer className="site-footer" id="footer">
-				<div className="footer-main content-width">
-					<div className="footer-brand">
-						<a className="brand brand-light" href="#home">
-							<span className="brand-icon" aria-hidden="true">
-								<img src={iceCreamLogo} alt="" />
-							</span>
-
-							<span className="brand-name">
-								Cuisine
-								<strong>Ice Cream</strong>
-							</span>
-						</a>
-
-						<p>Small-batch scoops, made with love and the good stuff.</p>
-					</div>
-
-					<a className="footer-email" href="mailto:hello@cuisineicecream.example">
-						hello@cuisineicecream.example
-					</a>
-				</div>
-
-				<div className="footer-bottom content-width">
-					<p>© 2025 Cuisine Ice Cream. Made with love.</p>
-				</div>
-			</footer>
-		</div>
+		</main>
 	)
 }
 
