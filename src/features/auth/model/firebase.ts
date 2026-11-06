@@ -1,4 +1,4 @@
-import { getApp, getApps, initializeApp } from 'firebase/app'
+import { getApps, initializeApp, type FirebaseApp } from 'firebase/app'
 import { getAuth, type Auth } from 'firebase/auth'
 
 const firebaseConfig = {
@@ -9,13 +9,16 @@ const firebaseConfig = {
 }
 
 let authInstance: Auth | null = null
+let appInstance: FirebaseApp | null = null
 
 export function isFirebaseConfigured() {
 	return Object.values(firebaseConfig).every((value) => value.length > 0)
 }
 
 export function getFirebaseAuth() {
-	if (!isFirebaseConfigured()) {
+	const app = getFirebaseApp()
+
+	if (!app) {
 		return null
 	}
 
@@ -23,8 +26,20 @@ export function getFirebaseAuth() {
 		return authInstance
 	}
 
-	const app = getApps().length > 0 ? getApp() : initializeApp(firebaseConfig)
 	authInstance = getAuth(app)
 
 	return authInstance
+}
+
+export function getFirebaseApp() {
+	if (!isFirebaseConfigured()) {
+		return null
+	}
+
+	if (!appInstance) {
+		appInstance = getApps().find((app) => app.name === '[DEFAULT]')
+			?? initializeApp(firebaseConfig)
+	}
+
+	return appInstance
 }

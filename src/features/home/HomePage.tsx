@@ -17,22 +17,29 @@ export function HomePage() {
 
 			<HomeCatalogSection
 				activeFilter={productCatalog.activeFilter}
+				error={productCatalog.error}
 				favoriteIds={productCatalog.favoriteIds}
+				isLoading={productCatalog.isLoading}
+				isUsingSampleProducts={productCatalog.isUsingSampleProducts}
 				onAddToCart={(productId) => {
 					if (requireAuth()) {
 						addToCart(productId)
 					}
 				}}
 				onSelectFilter={productCatalog.setActiveFilter}
+				onRetry={() => {
+					void productCatalog.refetch()
+				}}
 				onToggleFavorite={(productId) => {
 					if (requireAuth()) {
 						productCatalog.toggleFavorite(productId)
 					}
 				}}
-				visibleProducts={productCatalog.visibleProducts}
+				visibleProducts={productCatalog.visibleProducts.slice(0, 8)}
 			/>
 
 			<HomePromotionsSection
+				featuredProducts={productCatalog.products.slice(0, 4)}
 				favoriteIds={productCatalog.favoriteIds}
 				onAddToCart={(productId) => {
 					if (requireAuth()) {

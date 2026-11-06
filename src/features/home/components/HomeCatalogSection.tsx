@@ -2,14 +2,19 @@ import { Link } from '@tanstack/react-router'
 import type { Product } from '../../../entities/product/products'
 import { flavors } from '../../../entities/product/products'
 import { ProductCard } from '../../catalog/components/ProductCard'
+import { ProductCatalogNotice } from '../../catalog/components/ProductCatalogNotice'
 import type { ProductFilter } from '../../catalog/model/productFilters'
 import arrowIcon from '../../../assets/arrow-right.svg'
 
 type HomeCatalogSectionProps = {
 	activeFilter: ProductFilter
 	favoriteIds: number[]
+	error: string | null
+	isLoading: boolean
+	isUsingSampleProducts: boolean
 	onAddToCart: (productId: number) => void
 	onSelectFilter: (filter: ProductFilter) => void
+	onRetry: () => void
 	onToggleFavorite: (productId: number) => void
 	visibleProducts: Product[]
 }
@@ -22,9 +27,13 @@ const filters: { label: string; value: ProductFilter }[] = [
 
 export function HomeCatalogSection({
 	activeFilter,
+	error,
 	favoriteIds,
+	isLoading,
+	isUsingSampleProducts,
 	onAddToCart,
 	onSelectFilter,
+	onRetry,
 	onToggleFavorite,
 	visibleProducts,
 }: HomeCatalogSectionProps) {
@@ -36,6 +45,13 @@ export function HomeCatalogSection({
 
 					<h2>Our Natural Ingredients</h2>
 				</div>
+
+				<ProductCatalogNotice
+					error={error}
+					isLoading={isLoading}
+					isUsingSampleProducts={isUsingSampleProducts}
+					onRetry={onRetry}
+				/>
 
 				<div className="flavor-list">
 					{flavors.map((flavor) => (

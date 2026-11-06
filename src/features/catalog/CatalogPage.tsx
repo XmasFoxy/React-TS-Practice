@@ -2,6 +2,7 @@ import { useProductCatalog } from './model/useProductCatalog'
 import { ProductCard } from './components/ProductCard'
 import { useCart } from '../cart/model/useCart'
 import { useRequireAuth } from '../auth/model/useRequireAuth'
+import { ProductCatalogNotice } from './components/ProductCatalogNotice'
 import type { ProductFilter } from './model/productFilters'
 
 const filters: { label: string; value: ProductFilter }[] = [
@@ -13,7 +14,11 @@ const filters: { label: string; value: ProductFilter }[] = [
 export function CatalogPage() {
 	const {
 		activeFilter,
+		error,
 		favoriteIds,
+		isLoading,
+		isUsingSampleProducts,
+		refetch,
 		setActiveFilter,
 		toggleFavorite,
 		visibleProducts,
@@ -28,6 +33,15 @@ export function CatalogPage() {
 
 				<h1>Our ice cream flavors</h1>
 			</div>
+
+			<ProductCatalogNotice
+				error={error}
+				isLoading={isLoading}
+				isUsingSampleProducts={isUsingSampleProducts}
+				onRetry={() => {
+					void refetch()
+				}}
+			/>
 
 			<div className="product-filters" aria-label="Filter products">
 				{filters.map((filter) => (

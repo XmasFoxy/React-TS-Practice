@@ -1,5 +1,5 @@
 import { ProductCard } from '../../catalog/components/ProductCard'
-import { products } from '../../../entities/product/products'
+import type { Product } from '../../../entities/product/products'
 import arrowIcon from '../../../assets/arrow-right.svg'
 import favoriteFlavorImage from '../../../assets/additions.png'
 import blueberryNoteImage from '../../../assets/blueberry-ice.png'
@@ -9,12 +9,14 @@ import strawberryImage from '../../../assets/strawberry-ice-cream.png'
 import strawberryNoteImage from '../../../assets/strawberry-ellipse.png'
 
 type HomePromotionsSectionProps = {
+	featuredProducts: Product[]
 	favoriteIds: number[]
 	onAddToCart: (productId: number) => void
 	onToggleFavorite: (productId: number) => void
 }
 
 export function HomePromotionsSection({
+	featuredProducts,
 	favoriteIds,
 	onAddToCart,
 	onToggleFavorite,
@@ -127,7 +129,7 @@ export function HomePromotionsSection({
 					</div>
 
 					<div className="occasion-grid">
-						{products.slice(4, 8).map((product) => (
+						{featuredProducts.map((product) => (
 							<ProductCard
 								isFavorite={favoriteIds.includes(product.id)}
 								key={product.id}

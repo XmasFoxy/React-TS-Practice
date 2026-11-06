@@ -1,27 +1,16 @@
 import { useState } from 'react'
-import { products } from '../../../entities/product/products'
 import { useAuth } from '../../auth/model/useAuth'
 import type { ProductFilter } from './productFilters'
+import { useProductQuery } from './productQuery'
 
 export function useProductCatalog() {
 	const { user } = useAuth()
 	const [activeFilter, setActiveFilter] = useState<ProductFilter>('all')
 	const [favorites, setFavorites] = useState<{ ownerUid: string; productIds: number[] } | null>(null)
+	const productQuery = useProductQuery(activeFilter)
 	const favoriteIds = user && favorites?.ownerUid === user.uid
 		? favorites.productIds
 		: []
-
-	const visibleProducts = products.filter((product) => {
-		if (activeFilter === 'new') {
-			return product.isNew
-		}
-
-		if (activeFilter === 'bestsellers') {
-			return product.isBestseller
-		}
-
-		return true
-	})
 
 	function toggleFavorite(productId: number) {
 		if (!user) {
@@ -49,9 +38,14 @@ export function useProductCatalog() {
 
 	return {
 		activeFilter,
+		error: productQuery.error,
 		favoriteIds,
+		isLoading: productQuery.isLoading,
+		isUsingSampleProducts: productQuery.isUsingSampleProducts,
+		products: productQuery.products,
+		refetch: productQuery.refetch,
 		setActiveFilter,
 		toggleFavorite,
-		visibleProducts,
+		visibleProducts: productQuery.visibleProducts,
 	}
 }

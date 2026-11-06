@@ -1,12 +1,14 @@
 import { Link } from '@tanstack/react-router'
 import { useCart } from './model/useCart'
-import { products } from '../../entities/product/products'
+import { ProductCatalogNotice } from '../catalog/components/ProductCatalogNotice'
+import { useProductQuery } from '../catalog/model/productQuery'
 
 export function CartPage() {
 	const { items, itemCount, removeFromCart, updateQuantity } = useCart()
+	const productQuery = useProductQuery('all')
 
 	const cartItems = items.flatMap((item) => {
-		const product = products.find((currentProduct) => currentProduct.id === item.productId)
+		const product = productQuery.products.find((currentProduct) => currentProduct.id === item.productId)
 
 		if (!product) {
 			return []
@@ -27,6 +29,15 @@ export function CartPage() {
 
 				<h1>Your shopping bag</h1>
 			</div>
+
+			<ProductCatalogNotice
+				error={productQuery.error}
+				isLoading={productQuery.isLoading}
+				isUsingSampleProducts={productQuery.isUsingSampleProducts}
+				onRetry={() => {
+					void productQuery.refetch()
+				}}
+			/>
 
 			{cartItems.length === 0 ? (
 				<div className="empty-cart">
