@@ -4,7 +4,7 @@ import arrowIcon from '../../../assets/arrow-right.svg'
 import favoriteFlavorImage from '../../../assets/additions.png'
 import blueberryNoteImage from '../../../assets/blueberry-ice.png'
 import orangeNoteImage from '../../../assets/orange-ice-cream.png'
-import purpleIceCreamImage from '../../../assets/purple-ice-cream.png'
+import colorfulIceCreamImage from '../../../assets/colorful-ice-cream.png'
 import strawberryImage from '../../../assets/strawberry-ice-cream.png'
 import strawberryNoteImage from '../../../assets/strawberry-ellipse.png'
 
@@ -58,7 +58,7 @@ export function HomePromotionsSection({
 					</div>
 
 					<img
-						src={purpleIceCreamImage}
+						src={colorfulIceCreamImage}
 						alt="A colorful scoop of ice cream"
 						loading="lazy"
 					/>

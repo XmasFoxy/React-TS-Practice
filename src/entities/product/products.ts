@@ -9,7 +9,6 @@ import iceCreamBowl from '../../assets/ice-cream-bowl.png'
 import macaIceCream from '../../assets/maca-ice-cream.png'
 import milkIceCream from '../../assets/milk-ice-cream.png'
 import orangeIceCream from '../../assets/orange-ice-cream.png'
-import purpleIceCream from '../../assets/purple-ice-cream.png'
 import raspberryIceCream from '../../assets/raspberry-ice-cream.png'
 import strawberryDessert from '../../assets/strawberry-dessert.png'
 import strawberryIceCream from '../../assets/strawberry-ice-cream.png'
@@ -32,7 +31,6 @@ export const productImages = {
 	milk: milkIceCream,
 	orange: orangeIceCream,
 	pistachio: greenIceCream,
-	purple: purpleIceCream,
 	raspberry: raspberryIceCream,
 	strawberry: strawberryIceCream,
 	strawberryDessert,

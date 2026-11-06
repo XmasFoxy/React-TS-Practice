@@ -1,6 +1,9 @@
 import { applicationDefault, initializeApp } from 'firebase-admin/app'
 import { getFirestore } from 'firebase-admin/firestore'
-import { productRecords } from '../src/entities/product/productRecords.ts'
+import {
+	productRecords,
+	removedProductIds,
+} from '../src/entities/product/productRecords.ts'
 
 const projectId = process.env.GCLOUD_PROJECT
 
@@ -21,6 +24,13 @@ for (const product of productRecords) {
 	batch.set(productReference, product)
 }
 
+for (const productId of removedProductIds) {
+	const productReference = database.collection('products').doc(String(productId))
+	batch.delete(productReference)
+}
+
 await batch.commit()
 
-console.log(`Added or updated ${productRecords.length} products in Firestore.`)
+console.log(
+	`Added or updated ${productRecords.length} products and removed ${removedProductIds.length} duplicate products in Firestore.`,
+)

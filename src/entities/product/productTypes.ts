@@ -9,7 +9,6 @@ export type ProductImageKey =
 	| 'milk'
 	| 'orange'
 	| 'pistachio'
-	| 'purple'
 	| 'raspberry'
 	| 'strawberry'
 	| 'strawberryDessert'

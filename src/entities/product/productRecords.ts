@@ -90,14 +90,6 @@ export const productRecords: ProductRecord[] = [
 		isBestseller: true,
 	},
 	{
-		id: 10,
-		name: 'Ube Coconut',
-		price: 11.5,
-		imageKey: 'purple',
-		isNew: true,
-		isBestseller: false,
-	},
-	{
 		id: 11,
 		name: 'Sweet Cream',
 		price: 8.5,
@@ -162,3 +154,5 @@ export const productRecords: ProductRecord[] = [
 		isBestseller: false,
 	},
 ]
+
+export const removedProductIds = [10] as const

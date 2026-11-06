@@ -890,6 +890,10 @@
 	transition: transform 250ms ease;
 }
 
+.product-image-wrap-portrait > img {
+	aspect-ratio: auto;
+}
+
 .product-card:hover .product-image-wrap > img {
 	transform: scale(1.03);
 }

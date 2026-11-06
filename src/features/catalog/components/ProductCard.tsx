@@ -25,7 +25,12 @@ export function ProductCard({
 				variant === 'featured' ? 'product-card-featured' : '',
 			].filter(Boolean).join(' ')}
 		>
-			<div className="product-image-wrap">
+			<div
+				className={[
+					'product-image-wrap',
+					product.imageKey === 'maca' ? 'product-image-wrap-portrait' : '',
+				].filter(Boolean).join(' ')}
+			>
 				{product.badge && (
 					<span className={`product-badge ${product.badgeTone ?? ''}`}>
 						{product.badge}
