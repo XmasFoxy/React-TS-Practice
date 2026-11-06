@@ -1,4 +1,5 @@
 import cafeImage from '../../../assets/cafe-ice-cream.png'
+import calendarIcon from '../../../assets/calendar.svg'
 import employeeImage from '../../../assets/employee.png'
 import glutenFreeIcon from '../../../assets/gluten-free_17087068 1.svg'
 import girlWithIceCreamImage from '../../../assets/girl-with-ice-cream.png'
@@ -6,14 +7,48 @@ import ketoIcon from '../../../assets/avocado_9952003 1.svg'
 import mailBagImage from '../../../assets/mail-bag.png'
 import paleoIcon from '../../../assets/avocado_7409338 1.svg'
 import restaurantImage from '../../../assets/restaurant-ice-cream.png'
+import smsIcon from '../../../assets/sms.svg'
+import starIcon from '../../../assets/Star 1.svg'
 import veganIcon from '../../../assets/vegan_8814602 1.svg'
 import arrowIcon from '../../../assets/arrow-right.svg'
 
 const dietaryOptions = [
 	{ name: 'Vegan', icon: veganIcon },
-	{ name: 'Gluten-free', icon: glutenFreeIcon },
+	{ name: 'Gluten-Free', icon: glutenFreeIcon },
 	{ name: 'Paleo', icon: paleoIcon },
 	{ name: 'Keto', icon: ketoIcon },
+]
+
+const journalPosts = [
+	{
+		image: restaurantImage,
+		imageDescription: 'A plate with several scoops of ice cream',
+		date: '24 Feb 2024',
+		dateTime: '2024-02-24',
+		title: 'French Vanilla Ice Cream For Any Occasion',
+	},
+	{
+		image: cafeImage,
+		imageDescription: 'Scoops of ice cream with colorful sprinkles beside flowers',
+		date: '23 Apr 2024',
+		dateTime: '2024-04-23',
+		title: '5 Dreamy Ice Cream Hacks For Summer',
+	},
+]
+
+const reviews = [
+	{
+		name: 'Eshan B',
+		text: 'Lorem ipsum dolor sit amet, consectetur Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+	},
+	{
+		name: 'KPlndia',
+		text: 'Lorem ipsum dolor sit amet, consectetur Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+	},
+	{
+		name: 'KPlndia',
+		text: 'Lorem ipsum dolor sit amet, consectetur Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+	},
 ]
 
 export function HomeJournalSection() {
@@ -21,51 +56,59 @@ export function HomeJournalSection() {
 		<>
 			<section className="journal-section content-width" id="journal">
 				<div className="section-heading">
-					<p className="eyebrow">From our kitchen</p>
+					<p className="eyebrow">Our Journal</p>
 
-					<h2>The latest & tastiest updates</h2>
+					<h2>Latest News &amp; Updates</h2>
 				</div>
 
 				<div className="journal-grid">
-					<article className="journal-card">
-						<img
-							src={cafeImage}
-							alt="A table set with colorful ice cream"
-							loading="lazy"
-						/>
+					{journalPosts.map((post) => (
+						<article className="journal-card" key={post.title}>
+							<img
+								className="journal-image"
+								src={post.image}
+								alt={post.imageDescription}
+								loading="lazy"
+							/>
 
-						<div className="journal-copy">
-							<p className="journal-meta">Our kitchen <span>May 12, 2025</span></p>
+							<div className="journal-date">
+								<span className="journal-date-icon" aria-hidden="true">
+									<img src={calendarIcon} alt="" />
+								</span>
 
-							<h3>French vanilla ice cream for any occasion</h3>
+								<time dateTime={post.dateTime}>{post.date}</time>
+							</div>
 
-							<p>Little moments taste better when there is a scoop to share.</p>
+							<div className="journal-copy">
+								<div className="journal-meta">
+									<span className="journal-category">By Cuisine Theme</span>
 
-							<a className="text-link" href="#footer">
-								Read more <img className="arrow-icon" src={arrowIcon} alt="" />
-							</a>
-						</div>
-					</article>
+									<span className="journal-comments">
+										<img src={smsIcon} alt="" />
+										6 Comments
+									</span>
+								</div>
 
-					<article className="journal-card">
-						<img
-							src={restaurantImage}
-							alt="A fresh bowl of summer ice cream"
-							loading="lazy"
-						/>
+								<h3>{post.title}</h3>
 
-						<div className="journal-copy">
-							<p className="journal-meta">Sweet stories <span>May 03, 2025</span></p>
+								<p>
+									Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+									sed do eiusmod tempor incididunt.
+								</p>
 
-							<h3>5 reasons to make this a summer to remember</h3>
+								<a className="button button-pink journal-button" href="#footer">
+									Read More <img className="arrow-icon" src={arrowIcon} alt="" />
+								</a>
+							</div>
+						</article>
+					))}
+				</div>
 
-							<p>Meet your new favorite summer ritual, one scoop at a time.</p>
-
-							<a className="text-link" href="#footer">
-								Read more <img className="arrow-icon" src={arrowIcon} alt="" />
-							</a>
-						</div>
-					</article>
+				<div className="carousel-indicators" aria-hidden="true">
+					<span />
+					<span />
+					<span className="is-active" />
+					<span />
 				</div>
 			</section>
 
@@ -80,54 +123,60 @@ export function HomeJournalSection() {
 				))}
 			</section>
 
-			<section className="testimonial-section">
-				<div className="testimonial-copy">
-					<div className="section-heading">
-						<p className="eyebrow">A few words from our customers</p>
+			<section className="testimonials">
+				<div className="section-heading testimonial-heading">
+					<p className="testimonial-rating">
+						<span aria-hidden="true">
+							{Array.from({ length: 5 }, (_, index) => (
+								<img src={starIcon} alt="" key={index} />
+							))}
+						</span>
+						4.8/5 TRUSTED BY 199,087 CLIENTS
+					</p>
 
-						<h2>Savouring your taste buds</h2>
-					</div>
-
-					<blockquote>
-						<p>
-							“Every flavor tastes like it was made with care. Our
-							family has a new favorite for every season.”
-						</p>
-
-						<cite>Emily R. <span>— a happy customer</span></cite>
-					</blockquote>
-
-					<blockquote>
-						<p>
-							“Such a lovely little shop. The ingredients are fresh and
-							the scoops are always generous.”
-						</p>
-
-						<cite>Olivia M. <span>— a happy customer</span></cite>
-					</blockquote>
-
-					<a className="button button-pink" href="#products">Find your flavor</a>
+					<h2>Savouring Your Taste Buds</h2>
 				</div>
 
-				<img
-					className="testimonial-image"
-					src={girlWithIceCreamImage}
-					alt="Enjoying an ice cream on a sunny day"
-					loading="lazy"
-				/>
+				<div className="testimonial-section">
+					<div className="testimonial-copy">
+						{reviews.map((review, index) => (
+							<blockquote key={`${review.name}-${index}`}>
+								<p>{review.text}</p>
+
+								<cite>{review.name}</cite>
+							</blockquote>
+						))}
+
+						<a className="button button-pink" href="#journal">
+							Customer Reviews <img className="arrow-icon" src={arrowIcon} alt="" />
+						</a>
+					</div>
+
+					<img
+						className="testimonial-image"
+						src={girlWithIceCreamImage}
+						alt="Enjoying an ice cream on a sunny day"
+						loading="lazy"
+					/>
+				</div>
 			</section>
 
 			<section className="newsletter-section">
-				<div className="newsletter-decoration" aria-hidden="true">
+				<div className="newsletter-decoration newsletter-decoration-left" aria-hidden="true">
 					<img src={mailBagImage} alt="" />
 				</div>
 
 				<div className="newsletter-copy">
-					<p className="eyebrow">A little sweetness in your inbox</p>
+					<div className="section-heading">
+						<p className="eyebrow">Our Newsletter</p>
 
-					<h2>Join our mailing list</h2>
+						<h2>Join Our Mailing List</h2>
+					</div>
 
-					<p>Get the latest flavors, news, and a little treat from us.</p>
+					<p>
+						Sign up to our newsletter today and get 10% off your very first
+						online order with Cuisine.
+					</p>
 
 					<form className="newsletter-form" onSubmit={(event) => event.preventDefault()}>
 						<label className="visually-hidden" htmlFor="newsletter-email">Your email address</label>
@@ -136,7 +185,7 @@ export function HomeJournalSection() {
 							autoComplete="email"
 							id="newsletter-email"
 							name="email"
-							placeholder="Enter your email"
+							placeholder="Enter Your Email"
 							required
 							type="email"
 						/>
