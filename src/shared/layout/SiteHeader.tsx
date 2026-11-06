@@ -3,7 +3,6 @@ import cartIcon from '../../assets/bag.svg'
 import favoriteIcon from '../../assets/Vector.svg'
 import iceCreamLogo from '../../assets/ice-cream-icon.svg'
 import profileIcon from '../../assets/profile.svg'
-import searchIcon from '../../assets/search-normal.svg'
 import { useCart } from '../../features/cart/model/useCart'
 
 export function SiteHeader() {
@@ -52,28 +51,13 @@ export function SiteHeader() {
 
 				<nav className="main-navigation" aria-label="Main navigation">
 					<Link className="navigation-home" to="/">
-						Home <span aria-hidden="true" />
+						Home
 					</Link>
 					<Link to="/" hash="story">Our Story</Link>
-					<Link className="navigation-dropdown" to="/catalog">
-						Shop <span aria-hidden="true" />
-					</Link>
+					<Link to="/catalog">Shop</Link>
 					<Link to="/" hash="journal">Blog</Link>
-					<Link className="navigation-dropdown" to="/account">
-						Pages <span aria-hidden="true" />
-					</Link>
 					<Link to="/" hash="footer">Contact</Link>
 				</nav>
-
-				<form className="header-search" role="search" onSubmit={(event) => event.preventDefault()}>
-					<label className="visually-hidden" htmlFor="site-search">Search products</label>
-
-					<input id="site-search" name="search" placeholder="Search for..." type="search" />
-
-					<button type="submit" aria-label="Search">
-						<img src={searchIcon} alt="" />
-					</button>
-				</form>
 			</header>
 		</>
 	)
