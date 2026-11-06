@@ -1,10 +1,12 @@
 export type ProductImageKey =
+	| 'assortedScoops'
 	| 'blueberry'
 	| 'blueberryScoop'
 	| 'chocolate'
 	| 'chocolateFudge'
 	| 'chocolateWaffle'
 	| 'colorful'
+	| 'dessertSelection'
 	| 'maca'
 	| 'milk'
 	| 'orange'

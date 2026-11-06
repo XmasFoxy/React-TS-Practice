@@ -28,7 +28,9 @@ export function ProductCard({
 			<div
 				className={[
 					'product-image-wrap',
-					product.imageKey === 'maca' ? 'product-image-wrap-portrait' : '',
+					['assortedScoops', 'dessertSelection', 'maca'].includes(product.imageKey)
+						? 'product-image-wrap-portrait'
+						: '',
 				].filter(Boolean).join(' ')}
 			>
 				{product.badge && (

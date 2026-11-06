@@ -1,9 +1,11 @@
 import blueberryIceCream from '../../assets/blueberry-ice.png'
 import blueberryScoop from '../../assets/ice-cream-blueberry.png'
+import assortedScoops from '../../assets/additions.png'
 import chocolatePudding from '../../assets/choco-pudding.png'
 import chocolateScoop from '../../assets/chocolate-ice-cream.png'
 import chocolateWaffle from '../../assets/choco-in-vafel.png'
 import colorfulIceCream from '../../assets/colorful-ice-cream.png'
+import dessertSelection from '../../assets/desserts.png'
 import greenIceCream from '../../assets/green-ice-cream.png'
 import iceCreamBowl from '../../assets/ice-cream-bowl.png'
 import macaIceCream from '../../assets/maca-ice-cream.png'
@@ -21,12 +23,14 @@ import type { Product, ProductImageKey } from './productTypes'
 export type { Product, ProductImageKey, ProductRecord } from './productTypes'
 
 export const productImages = {
+	assortedScoops,
 	blueberry: blueberryIceCream,
 	blueberryScoop,
 	chocolate: chocolateScoop,
 	chocolateFudge: chocolatePudding,
 	chocolateWaffle,
 	colorful: colorfulIceCream,
+	dessertSelection,
 	maca: macaIceCream,
 	milk: milkIceCream,
 	orange: orangeIceCream,
