@@ -1,5 +1,6 @@
 import { Link } from '@tanstack/react-router'
 import cartIcon from '../../assets/bag.svg'
+import favoriteIcon from '../../assets/Vector.svg'
 import iceCreamLogo from '../../assets/ice-cream-icon.svg'
 import profileIcon from '../../assets/profile.svg'
 import searchIcon from '../../assets/search-normal.svg'
@@ -15,7 +16,26 @@ export function SiteHeader() {
 	return (
 		<>
 			<div className="announcement">
-				Free delivery on orders over $50 <span>— Shop your favorite flavors</span>
+				<div className="announcement-copy">
+					<span>Free shipping on orders over $50</span>
+
+					<span>Subscribe &amp; get 15% off + FREE shipping</span>
+				</div>
+
+				<div className="announcement-actions">
+					<Link className="announcement-icon-link" to="/account" aria-label="Your account">
+						<img src={profileIcon} alt="" />
+					</Link>
+
+					<Link className="announcement-icon-link" to="/catalog" aria-label="Your favorites">
+						<img src={favoriteIcon} alt="" />
+					</Link>
+
+					<Link className="announcement-icon-link announcement-cart" to="/cart" aria-label={cartLabel}>
+						<img src={cartIcon} alt="" />
+						<span className="cart-count">{itemCount}</span>
+					</Link>
+				</div>
 			</div>
 
 			<header className="site-header">
@@ -31,27 +51,29 @@ export function SiteHeader() {
 				</Link>
 
 				<nav className="main-navigation" aria-label="Main navigation">
-					<Link to="/">Home</Link>
-					<Link to="/catalog">Shop</Link>
+					<Link className="navigation-home" to="/">
+						Home <span aria-hidden="true" />
+					</Link>
 					<Link to="/" hash="story">Our Story</Link>
-					<Link to="/" hash="journal">Journal</Link>
+					<Link className="navigation-dropdown" to="/catalog">
+						Shop <span aria-hidden="true" />
+					</Link>
+					<Link to="/" hash="journal">Blog</Link>
+					<Link className="navigation-dropdown" to="/account">
+						Pages <span aria-hidden="true" />
+					</Link>
 					<Link to="/" hash="footer">Contact</Link>
 				</nav>
 
-				<div className="header-actions">
-					<button className="icon-button" type="button" aria-label="Search">
+				<form className="header-search" role="search" onSubmit={(event) => event.preventDefault()}>
+					<label className="visually-hidden" htmlFor="site-search">Search products</label>
+
+					<input id="site-search" name="search" placeholder="Search for..." type="search" />
+
+					<button type="submit" aria-label="Search">
 						<img src={searchIcon} alt="" />
 					</button>
-
-					<Link className="icon-button account-button" to="/account" aria-label="Your account">
-						<img src={profileIcon} alt="" />
-					</Link>
-
-					<Link className="cart-button" to="/cart" aria-label={cartLabel}>
-						<img src={cartIcon} alt="" />
-						<span className="cart-count">{itemCount}</span>
-					</Link>
-				</div>
+				</form>
 			</header>
 		</>
 	)

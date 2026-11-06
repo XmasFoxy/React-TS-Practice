@@ -1,6 +1,8 @@
 import { Link } from '@tanstack/react-router'
 import iceCreamLogo from '../../assets/ice-cream-icon.svg'
 
+const currentYear = new Date().getFullYear()
+
 export function SiteFooter() {
 	return (
 		<footer className="site-footer" id="footer">
@@ -26,7 +28,7 @@ export function SiteFooter() {
 			</div>
 
 			<div className="footer-bottom content-width">
-				<p>© 2025 Cuisine Ice Cream. Made with love.</p>
+				<p>© {currentYear} Cuisine Ice Cream. Made with love.</p>
 			</div>
 		</footer>
 	)
