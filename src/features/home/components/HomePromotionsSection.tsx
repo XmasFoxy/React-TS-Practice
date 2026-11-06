@@ -1,11 +1,12 @@
 import { ProductCard } from '../../catalog/components/ProductCard'
 import { products } from '../../../entities/product/products'
 import arrowIcon from '../../../assets/arrow-right.svg'
-import dessertsImage from '../../../assets/desserts.png'
+import favoriteFlavorImage from '../../../assets/additions.png'
+import blueberryNoteImage from '../../../assets/blueberry-ice.png'
+import orangeNoteImage from '../../../assets/orange-ice-cream.png'
 import purpleIceCreamImage from '../../../assets/purple-ice-cream.png'
 import strawberryImage from '../../../assets/strawberry-ice-cream.png'
 import strawberryNoteImage from '../../../assets/strawberry-ellipse.png'
-import vanillaNoteImage from '../../../assets/raspberry-ice-cream.png'
 
 type HomePromotionsSectionProps = {
 	favoriteIds: number[]
@@ -63,30 +64,27 @@ export function HomePromotionsSection({
 			</section>
 
 			<section className="favorite-section content-width">
+				<div className="section-heading favorite-heading">
+					<p className="eyebrow">Favorite Flavor</p>
+
+					<h2>Pastries In Addition To Ice Cream</h2>
+				</div>
+
 				<div className="favorite-image-wrap">
 					<img
-						src={dessertsImage}
+						src={favoriteFlavorImage}
 						alt="A generous bowl of ice cream with sprinkles"
 						loading="lazy"
 					/>
 				</div>
 
 				<div className="favorite-copy">
-					<p className="eyebrow">A favorite flavor</p>
-
-					<h2>Pastries in addition to ice cream</h2>
-
-					<p>
-						Our favorite flavors are inspired by the little things that
-						make every day sweeter.
-					</p>
-
 					<div className="favorite-note">
-						<img className="note-image" src={vanillaNoteImage} alt="" />
+						<img className="note-image" src={orangeNoteImage} alt="" />
 
 						<div>
 							<h3>Raspberry ripple</h3>
-							<p>Sweet berries, swirled through a creamy scoop.</p>
+							<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
 						</div>
 					</div>
 
@@ -95,13 +93,28 @@ export function HomePromotionsSection({
 
 						<div>
 							<h3>Pick your flavor</h3>
-							<p>Discover a new favorite from our seasonal menu.</p>
+							<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
 						</div>
 					</div>
 
-					<a className="text-link" href="#products">
-						Explore our menu <img className="arrow-icon" src={arrowIcon} alt="" />
-					</a>
+					<div className="favorite-note">
+						<img className="note-image" src={blueberryNoteImage} alt="" />
+
+						<div>
+							<h3>Bastani Sonnati</h3>
+							<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+						</div>
+					</div>
+
+					<div className="favorite-actions">
+						<a className="button button-pink" href="#products">
+							Find out more <img className="arrow-icon" src={arrowIcon} alt="" />
+						</a>
+
+						<a className="button button-outline" href="#ingredients">
+							Our Ingredients
+						</a>
+					</div>
 				</div>
 			</section>
 
@@ -114,15 +127,23 @@ export function HomePromotionsSection({
 					</div>
 
 					<div className="occasion-grid">
-						{products.slice(1, 5).map((product) => (
+						{products.slice(4, 8).map((product) => (
 							<ProductCard
 								isFavorite={favoriteIds.includes(product.id)}
 								key={product.id}
 								onAddToCart={() => onAddToCart(product.id)}
 								onToggleFavorite={() => onToggleFavorite(product.id)}
 								product={product}
+								variant="featured"
 							/>
 						))}
+					</div>
+
+					<div className="carousel-indicators" aria-hidden="true">
+						<span />
+						<span />
+						<span className="is-active" />
+						<span />
 					</div>
 				</div>
 			</section>
