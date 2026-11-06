@@ -2,7 +2,7 @@ import { Outlet } from '@tanstack/react-router'
 import { CartProvider } from '../../features/cart/model/CartProvider'
 import { SiteFooter } from '../../shared/layout/SiteFooter'
 import { SiteHeader } from '../../shared/layout/SiteHeader'
-import '../../App.css'
+import '../styles.css'
 
 export function RootLayout() {
 	return (
