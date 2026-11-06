@@ -1,32 +1,23 @@
-import arrowIcon from '../../../assets/arrow-right.svg'
-import colorfulIceCreamImage from '../../../assets/colorful-ice-cream.png'
 import heroImage from '../../../assets/choco-in-vafel.png'
-import heroStar from '../../../assets/Star 1.svg'
 import heroStrawberries from '../../../assets/two-strawberries.png'
-import locationIcon from '../../../assets/location.svg'
+import mapIcon from '../../../assets/map.svg'
 import shopIcon from '../../../assets/shop.svg'
 import vehicleIcon from '../../../assets/vehicle.svg'
+import storyImage from '../../../assets/desserts.png'
+import arrowIcon from '../../../assets/arrow-right.svg'
 
 export function HomeIntro() {
 	return (
 		<>
 			<section className="hero-section" id="home">
 				<div className="hero-copy">
-					<p className="eyebrow">A little scoop of happiness</p>
-
 					<h1>
 						Global Cuisine
 						<br />
 						Meets <span>Ice Cream</span>
 					</h1>
 
-					<p className="hero-description">
-						Flavours of joy, lovingly made with real ingredients.
-					</p>
-
-					<a className="button button-pink" href="#products">
-						Explore our flavors <img className="arrow-icon" src={arrowIcon} alt="" />
-					</a>
+					<p className="hero-description">Flavours of joyfulness</p>
 				</div>
 
 				<div className="hero-image-wrap">
@@ -37,9 +28,9 @@ export function HomeIntro() {
 						fetchPriority="high"
 					/>
 
-					<img className="hero-decoration hero-star" src={heroStar} alt="" />
+					<img className="hero-decoration hero-strawberries hero-strawberries-top" src={heroStrawberries} alt="" />
 
-					<img className="hero-decoration hero-strawberries" src={heroStrawberries} alt="" />
+					<img className="hero-decoration hero-strawberries hero-strawberries-bottom" src={heroStrawberries} alt="" />
 				</div>
 			</section>
 
@@ -62,9 +53,9 @@ export function HomeIntro() {
 
 				<a className="service-link" href="#footer">
 					<span className="service-icon" aria-hidden="true">
-						<img src={locationIcon} alt="" />
+						<img src={mapIcon} alt="" />
 					</span>
-					<span>Grocery locator</span>
+					<span>Grocery Locator</span>
 				</a>
 			</section>
 
@@ -72,23 +63,45 @@ export function HomeIntro() {
 				<div className="story-copy">
 					<p className="eyebrow">A treat made with love</p>
 
-					<h2>We’re Loren’s, and we love crafting unbelievably delicious tribute tubs of joy.</h2>
+					<h2>We’re Loren’s, and we love crafting unbelievably delicious stripey tubs of joy.</h2>
 
 					<p>
-						Using the finest ingredients and a little imagination, we make
-						ice cream that brings people together. Every scoop is made
-						slowly, thoughtfully, and with plenty of love.
+						Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
+						do eiusmod tempor incididunt. Lorem ipsum dolor sit amet,
+						consectetur adipiscing elit, sed do eiusmod tempor incididunt.
 					</p>
 
-					<a className="text-link" href="#ingredients">
-						Discover our story <img className="arrow-icon" src={arrowIcon} alt="" />
+					<div className="story-link-list">
+						<a href="#products">
+							<img src={arrowIcon} alt="" />
+							Scoop Shop Flavors
+						</a>
+
+						<a href="#products">
+							<img src={arrowIcon} alt="" />
+							Ice Cream Pints
+						</a>
+
+						<a href="#products">
+							<img src={arrowIcon} alt="" />
+							Frozen Yogurt Pints
+						</a>
+
+						<a href="#products">
+							<img src={arrowIcon} alt="" />
+							Chocolatey Love
+						</a>
+					</div>
+
+					<a className="button button-pink story-button" href="#products">
+						Join the cuisine <img className="arrow-icon" src={arrowIcon} alt="" />
 					</a>
 				</div>
 
 				<img
 					className="story-image"
-					src={colorfulIceCreamImage}
-					alt="Colorful scoops of ice cream ready to share"
+					src={storyImage}
+					alt="A selection of colorful ice cream cones"
 					loading="lazy"
 				/>
 			</section>
