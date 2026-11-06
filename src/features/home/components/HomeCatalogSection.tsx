@@ -47,12 +47,6 @@ export function HomeCatalogSection({
 					))}
 				</div>
 
-				<div className="carousel-indicators" aria-hidden="true">
-					<span />
-					<span />
-					<span className="is-active" />
-					<span />
-				</div>
 			</section>
 
 			<section className="products-section" id="products">

@@ -104,12 +104,6 @@ export function HomeJournalSection() {
 					))}
 				</div>
 
-				<div className="carousel-indicators" aria-hidden="true">
-					<span />
-					<span />
-					<span className="is-active" />
-					<span />
-				</div>
 			</section>
 
 			<section className="diet-section content-width" aria-label="Dietary options">

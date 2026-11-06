@@ -139,12 +139,6 @@ export function HomePromotionsSection({
 						))}
 					</div>
 
-					<div className="carousel-indicators" aria-hidden="true">
-						<span />
-						<span />
-						<span className="is-active" />
-						<span />
-					</div>
 				</div>
 			</section>
 		</>
