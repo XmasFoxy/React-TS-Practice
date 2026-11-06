@@ -1,4 +1,5 @@
 import starIcon from '../../../assets/Star 1.svg'
+import cartIcon from '../../../assets/shopping-cart.svg'
 import type { Product } from '../../../entities/product/products'
 
 type ProductCardProps = {
@@ -6,6 +7,7 @@ type ProductCardProps = {
 	onAddToCart: () => void
 	onToggleFavorite: () => void
 	product: Product
+	variant?: 'default' | 'featured'
 }
 
 export function ProductCard({
@@ -13,9 +15,16 @@ export function ProductCard({
 	onAddToCart,
 	onToggleFavorite,
 	product,
+	variant = 'default',
 }: ProductCardProps) {
 	return (
-		<article className={product.isSoldOut ? 'product-card is-sold-out' : 'product-card'}>
+		<article
+			className={[
+				'product-card',
+				product.isSoldOut ? 'is-sold-out' : '',
+				variant === 'featured' ? 'product-card-featured' : '',
+			].filter(Boolean).join(' ')}
+		>
 			<div className="product-image-wrap">
 				{product.badge && (
 					<span className={`product-badge ${product.badgeTone ?? ''}`}>
@@ -55,7 +64,7 @@ export function ProductCard({
 						onClick={onAddToCart}
 						aria-label={product.isSoldOut ? `${product.name} is sold out` : `Add ${product.name} to shopping bag`}
 					>
-						{product.isSoldOut ? '-' : '+'}
+						<img src={cartIcon} alt="" />
 					</button>
 				</div>
 			</div>

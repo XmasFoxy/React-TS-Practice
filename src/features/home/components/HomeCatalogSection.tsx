@@ -15,9 +15,9 @@ type HomeCatalogSectionProps = {
 }
 
 const filters: { label: string; value: ProductFilter }[] = [
-	{ label: 'Our favorites', value: 'all' },
-	{ label: 'New arrivals', value: 'new' },
-	{ label: 'Best sellers', value: 'bestsellers' },
+	{ label: 'Top Seller', value: 'all' },
+	{ label: 'Top Trending', value: 'bestsellers' },
+	{ label: 'New Products', value: 'new' },
 ]
 
 export function HomeCatalogSection({
@@ -34,7 +34,7 @@ export function HomeCatalogSection({
 				<div className="section-heading">
 					<p className="eyebrow">Nothing artificial, ever</p>
 
-					<h2>Our natural ingredients</h2>
+					<h2>Our Natural Ingredients</h2>
 				</div>
 
 				<div className="flavor-list">
@@ -46,6 +46,13 @@ export function HomeCatalogSection({
 						</a>
 					))}
 				</div>
+
+				<div className="carousel-indicators" aria-hidden="true">
+					<span />
+					<span />
+					<span className="is-active" />
+					<span />
+				</div>
 			</section>
 
 			<section className="products-section" id="products">
@@ -53,7 +60,7 @@ export function HomeCatalogSection({
 					<div className="section-heading">
 						<p className="eyebrow">Scoop into something special</p>
 
-						<h2>Find your perfect pint!</h2>
+						<h2>Find Your Perfect Pint!</h2>
 					</div>
 
 					<div className="product-filters" aria-label="Filter products">
@@ -82,7 +89,7 @@ export function HomeCatalogSection({
 					</div>
 
 					<Link className="button button-pink products-cta" to="/catalog">
-						View all flavors <img className="arrow-icon" src={arrowIcon} alt="" />
+						View All Products <img className="arrow-icon" src={arrowIcon} alt="" />
 					</Link>
 				</div>
 			</section>

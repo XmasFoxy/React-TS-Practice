@@ -4,9 +4,9 @@ import { useCart } from '../cart/model/useCart'
 import type { ProductFilter } from './model/productFilters'
 
 const filters: { label: string; value: ProductFilter }[] = [
-	{ label: 'Our favorites', value: 'all' },
-	{ label: 'New arrivals', value: 'new' },
-	{ label: 'Best sellers', value: 'bestsellers' },
+	{ label: 'Top Seller', value: 'all' },
+	{ label: 'Top Trending', value: 'bestsellers' },
+	{ label: 'New Products', value: 'new' },
 ]
 
 export function CatalogPage() {

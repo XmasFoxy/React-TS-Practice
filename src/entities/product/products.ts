@@ -1,5 +1,7 @@
 import blueberryIceCream from '../../assets/blueberry-ice.png'
-import chocoPudding from '../../assets/choco-pudding.png'
+import chocolatePudding from '../../assets/choco-pudding.png'
+import chocolateScoop from '../../assets/chocolate-ice-cream.png'
+import colorfulIceCream from '../../assets/colorful-ice-cream.png'
 import greenIceCream from '../../assets/green-ice-cream.png'
 import macaIceCream from '../../assets/maca-ice-cream.png'
 import milkIceCream from '../../assets/milk-ice-cream.png'
@@ -7,7 +9,8 @@ import orangeIceCream from '../../assets/orange-ice-cream.png'
 import strawberryDessert from '../../assets/strawberry-dessert.png'
 import strawberryIceCream from '../../assets/strawberry-ice-cream.png'
 import vanillaIceCream from '../../assets/cup-of-ice-cream.png'
-import chocolateFlavor from '../../assets/chocolate-ice-cream.png'
+import chocolateFlavor from '../../assets/ice-cream-bowl.png'
+import naturalYogurtFlavor from '../../assets/choco-in-vafel.png'
 
 export type Product = {
 	id: number
@@ -27,8 +30,6 @@ export const products: Product[] = [
 		name: 'Strawberry & Lingonberry',
 		price: 7.9,
 		image: strawberryIceCream,
-		badge: 'New flavor',
-		badgeTone: 'badge-pink',
 		isNew: true,
 		isBestseller: true,
 	},
@@ -37,7 +38,7 @@ export const products: Product[] = [
 		name: 'Cherry Garcia Ice Cream',
 		price: 11,
 		image: strawberryDessert,
-		badge: '50% off',
+		badge: '50%',
 		badgeTone: 'badge-orange',
 		isNew: false,
 		isBestseller: true,
@@ -46,8 +47,8 @@ export const products: Product[] = [
 		id: 3,
 		name: 'Chocolate Cookie Crunch',
 		price: 10,
-		image: chocoPudding,
-		badge: 'Sold out',
+		image: chocolateScoop,
+		badge: 'Sold Out',
 		badgeTone: 'badge-green',
 		isSoldOut: true,
 		isNew: false,
@@ -56,8 +57,10 @@ export const products: Product[] = [
 	{
 		id: 4,
 		name: 'Raspberry Ripple',
-		price: 8.5,
-		image: blueberryIceCream,
+		price: 9,
+		image: chocolatePudding,
+		badge: 'New',
+		badgeTone: 'badge-yellow',
 		isNew: true,
 		isBestseller: true,
 	},
@@ -65,34 +68,41 @@ export const products: Product[] = [
 		id: 5,
 		name: 'Mango Sorbet',
 		price: 8,
-		image: orangeIceCream,
-		badge: 'Dairy free',
-		badgeTone: 'badge-green',
+		image: colorfulIceCream,
+		badge: 'Sale',
+		badgeTone: 'badge-pink',
 		isNew: true,
-		isBestseller: false,
+		isBestseller: true,
 	},
 	{
 		id: 6,
 		name: 'Vanilla Bean Dream',
-		price: 9.25,
-		image: vanillaIceCream,
-		isNew: false,
+		price: 15,
+		image: orangeIceCream,
+		badge: 'New',
+		badgeTone: 'badge-yellow',
+		isNew: true,
 		isBestseller: true,
 	},
 	{
 		id: 7,
 		name: 'Pistachio & Honey',
-		price: 10.5,
+		price: 13,
 		image: greenIceCream,
-		isNew: true,
+		badge: 'Sold Out',
+		badgeTone: 'badge-green',
+		isSoldOut: true,
+		isNew: false,
 		isBestseller: false,
 	},
 	{
 		id: 8,
 		name: 'Cookies & Cream',
-		price: 9.5,
-		image: macaIceCream,
-		isNew: false,
+		price: 12,
+		image: blueberryIceCream,
+		badge: 'New',
+		badgeTone: 'badge-yellow',
+		isNew: true,
 		isBestseller: true,
 	},
 ]
@@ -116,6 +126,6 @@ export const flavors = [
 	},
 	{
 		name: 'Natural yogurt',
-		image: blueberryIceCream,
+		image: naturalYogurtFlavor,
 	},
 ]
