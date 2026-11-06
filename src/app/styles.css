@@ -222,6 +222,39 @@
 	text-align: center;
 }
 
+.catalog-notice {
+	margin: 0 0 24px;
+	padding: 13px 16px;
+	background: var(--color-pink-light);
+	color: var(--color-muted);
+	font-size: 13px;
+	line-height: 1.6;
+}
+
+.catalog-notice-error {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 16px;
+	background: #fff0f0;
+	color: #a12525;
+}
+
+.catalog-notice-error p {
+	flex: 1;
+	margin: 0;
+}
+
+.catalog-retry-button {
+	flex: 0 0 auto;
+	padding: 8px 12px;
+	border: 1px solid currentColor;
+	border-radius: 2px;
+	background: #fff;
+	color: inherit;
+	cursor: pointer;
+}
+
 .empty-cart h2,
 .empty-cart p {
 	margin: 0;
@@ -1583,6 +1616,11 @@ input:focus-visible {
 
 	.account-card {
 		padding: 30px 20px;
+	}
+
+	.catalog-notice-error {
+		align-items: flex-start;
+		flex-direction: column;
 	}
 
 	.cart-item {
