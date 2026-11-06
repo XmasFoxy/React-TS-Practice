@@ -62,9 +62,12 @@ export function CatalogPage() {
 						isFavorite={favoriteIds.includes(product.id)}
 						key={product.id}
 						onAddToCart={() => {
-							if (requireAuth()) {
-								addToCart(product.id)
+							if (!requireAuth()) {
+								return false
 							}
+
+							addToCart(product.id)
+							return true
 						}}
 						onToggleFavorite={() => {
 							if (requireAuth()) {

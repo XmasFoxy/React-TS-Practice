@@ -11,7 +11,7 @@ import strawberryNoteImage from '../../../assets/strawberry-ellipse.png'
 type HomePromotionsSectionProps = {
 	featuredProducts: Product[]
 	favoriteIds: number[]
-	onAddToCart: (productId: number) => void
+	onAddToCart: (productId: number) => boolean
 	onToggleFavorite: (productId: number) => void
 }
 

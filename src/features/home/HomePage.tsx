@@ -22,9 +22,12 @@ export function HomePage() {
 				isLoading={productCatalog.isLoading}
 				isUsingSampleProducts={productCatalog.isUsingSampleProducts}
 				onAddToCart={(productId) => {
-					if (requireAuth()) {
-						addToCart(productId)
+					if (!requireAuth()) {
+						return false
 					}
+
+					addToCart(productId)
+					return true
 				}}
 				onSelectFilter={productCatalog.setActiveFilter}
 				onRetry={() => {
@@ -42,9 +45,12 @@ export function HomePage() {
 				featuredProducts={productCatalog.products.slice(0, 4)}
 				favoriteIds={productCatalog.favoriteIds}
 				onAddToCart={(productId) => {
-					if (requireAuth()) {
-						addToCart(productId)
+					if (!requireAuth()) {
+						return false
 					}
+
+					addToCart(productId)
+					return true
 				}}
 				onToggleFavorite={(productId) => {
 					if (requireAuth()) {

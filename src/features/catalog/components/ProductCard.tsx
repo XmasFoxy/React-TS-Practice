@@ -1,10 +1,11 @@
+import { useEffect, useRef, useState } from 'react'
 import starIcon from '../../../assets/Star 1.svg'
 import cartIcon from '../../../assets/shopping-cart.svg'
 import type { Product } from '../../../entities/product/products'
 
 type ProductCardProps = {
 	isFavorite: boolean
-	onAddToCart: () => void
+	onAddToCart: () => boolean
 	onToggleFavorite: () => void
 	product: Product
 	variant?: 'default' | 'featured'
@@ -17,6 +18,32 @@ export function ProductCard({
 	product,
 	variant = 'default',
 }: ProductCardProps) {
+	const [isAdded, setIsAdded] = useState(false)
+	const feedbackTimeout = useRef<number | null>(null)
+
+	useEffect(() => () => {
+		if (feedbackTimeout.current !== null) {
+			window.clearTimeout(feedbackTimeout.current)
+		}
+	}, [])
+
+	function handleAddToCart() {
+		if (!onAddToCart()) {
+			return
+		}
+
+		setIsAdded(true)
+
+		if (feedbackTimeout.current !== null) {
+			window.clearTimeout(feedbackTimeout.current)
+		}
+
+		feedbackTimeout.current = window.setTimeout(() => {
+			setIsAdded(false)
+			feedbackTimeout.current = null
+		}, 900)
+	}
+
 	return (
 		<article
 			className={[
@@ -25,14 +52,7 @@ export function ProductCard({
 				variant === 'featured' ? 'product-card-featured' : '',
 			].filter(Boolean).join(' ')}
 		>
-			<div
-				className={[
-					'product-image-wrap',
-					['assortedScoops', 'dessertSelection', 'maca'].includes(product.imageKey)
-						? 'product-image-wrap-portrait'
-						: '',
-				].filter(Boolean).join(' ')}
-			>
+			<div className="product-image-wrap">
 				{product.badge && (
 					<span className={`product-badge ${product.badgeTone ?? ''}`}>
 						{product.badge}
@@ -71,14 +91,24 @@ export function ProductCard({
 					<span className="product-price">${product.price.toFixed(2)}</span>
 
 					<button
-						className="add-to-cart-button"
+						className={isAdded ? 'add-to-cart-button is-added' : 'add-to-cart-button'}
 						disabled={product.isSoldOut}
 						type="button"
-						onClick={onAddToCart}
-						aria-label={product.isSoldOut ? `${product.name} is sold out` : `Add ${product.name} to shopping bag`}
+						onClick={handleAddToCart}
+						aria-label={
+							product.isSoldOut
+								? `${product.name} is sold out`
+								: isAdded
+									? `${product.name} added. Add another`
+									: `Add ${product.name} to shopping bag`
+						}
 					>
-						<img src={cartIcon} alt="" />
+						{isAdded ? '✓' : <img src={cartIcon} alt="" />}
 					</button>
+
+					<span className="visually-hidden" role="status" aria-live="polite">
+						{isAdded ? `${product.name} added to cart` : ''}
+					</span>
 				</div>
 			</div>
 		</article>

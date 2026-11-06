@@ -12,7 +12,7 @@ type HomeCatalogSectionProps = {
 	error: string | null
 	isLoading: boolean
 	isUsingSampleProducts: boolean
-	onAddToCart: (productId: number) => void
+	onAddToCart: (productId: number) => boolean
 	onSelectFilter: (filter: ProductFilter) => void
 	onRetry: () => void
 	onToggleFavorite: (productId: number) => void
