@@ -1,6 +1,32 @@
-import { Link } from '@tanstack/react-router'
+import { useRouter } from '@tanstack/react-router'
+import type { User } from 'firebase/auth'
+import { useState } from 'react'
+import { getAuthErrorMessage } from '../auth/model/authErrors'
+import { signOutCurrentUser } from '../auth/model/authService'
 
-export function AccountPage() {
+type AccountPageProps = {
+	user: User
+}
+
+export function AccountPage({ user }: AccountPageProps) {
+	const router = useRouter()
+	const [error, setError] = useState<string | null>(null)
+	const [isSigningOut, setIsSigningOut] = useState(false)
+
+	async function handleSignOut() {
+		setError(null)
+		setIsSigningOut(true)
+
+		try {
+			await signOutCurrentUser()
+			router.history.push('/')
+		} catch (signOutError) {
+			setError(getAuthErrorMessage(signOutError))
+		} finally {
+			setIsSigningOut(false)
+		}
+	}
+
 	return (
 		<main className="account-page content-width">
 			<div className="account-card">
@@ -8,14 +34,22 @@ export function AccountPage() {
 
 				<h1>Your account</h1>
 
-				<p>
-					Account registration and sign-in with email and password will be
-					connected to Firebase in the next project step.
-				</p>
+				<p>You are signed in as {user.email ?? 'a Firebase user'}.</p>
 
-				<Link className="button button-pink" to="/catalog">
-					Continue shopping
-				</Link>
+				{error ? (
+					<p className="auth-message auth-message-error" role="alert">
+						{error}
+					</p>
+				) : null}
+
+				<button
+					className="button button-pink"
+					disabled={isSigningOut}
+					onClick={handleSignOut}
+					type="button"
+				>
+					{isSigningOut ? 'Signing out...' : 'Sign out'}
+				</button>
 			</div>
 		</main>
 	)

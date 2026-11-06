@@ -100,8 +100,7 @@ export function CartPage() {
 						</p>
 
 						<p className="cart-checkout-note">
-							Sign-in and saved orders will be connected with Firebase in
-							the next project step.
+							Your account is ready whenever you are.
 						</p>
 					</aside>
 				</div>
