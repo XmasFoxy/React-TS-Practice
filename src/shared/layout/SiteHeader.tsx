@@ -1,9 +1,9 @@
 import { Link } from '@tanstack/react-router'
-import cartIcon from '../assets/bag.svg'
-import iceCreamLogo from '../assets/ice-cream-icon.svg'
-import profileIcon from '../assets/profile.svg'
-import searchIcon from '../assets/search-normal.svg'
-import { useCart } from '../context/CartContext'
+import cartIcon from '../../assets/bag.svg'
+import iceCreamLogo from '../../assets/ice-cream-icon.svg'
+import profileIcon from '../../assets/profile.svg'
+import searchIcon from '../../assets/search-normal.svg'
+import { useCart } from '../../features/cart/model/useCart'
 
 export function SiteHeader() {
 	const { itemCount } = useCart()

@@ -1,15 +1,13 @@
-import blueberryIceCream from '../assets/blueberry-ice.png'
-import chocoPudding from '../assets/choco-pudding.png'
-import greenIceCream from '../assets/green-ice-cream.png'
-import macaIceCream from '../assets/maca-ice-cream.png'
-import milkIceCream from '../assets/milk-ice-cream.png'
-import orangeIceCream from '../assets/orange-ice-cream.png'
-import strawberryDessert from '../assets/strawberry-dessert.png'
-import strawberryIceCream from '../assets/strawberry-ice-cream.png'
-import vanillaIceCream from '../assets/cup-of-ice-cream.png'
-import chocolateFlavor from '../assets/chocolate-ice-cream.png'
-
-export type ProductFilter = 'all' | 'new' | 'bestsellers'
+import blueberryIceCream from '../../assets/blueberry-ice.png'
+import chocoPudding from '../../assets/choco-pudding.png'
+import greenIceCream from '../../assets/green-ice-cream.png'
+import macaIceCream from '../../assets/maca-ice-cream.png'
+import milkIceCream from '../../assets/milk-ice-cream.png'
+import orangeIceCream from '../../assets/orange-ice-cream.png'
+import strawberryDessert from '../../assets/strawberry-dessert.png'
+import strawberryIceCream from '../../assets/strawberry-ice-cream.png'
+import vanillaIceCream from '../../assets/cup-of-ice-cream.png'
+import chocolateFlavor from '../../assets/chocolate-ice-cream.png'
 
 export type Product = {
 	id: number

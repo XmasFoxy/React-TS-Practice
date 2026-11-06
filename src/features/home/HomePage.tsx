@@ -1,57 +1,40 @@
-import { useState } from 'react'
 import { Link } from '@tanstack/react-router'
-import { ProductCard } from './components/ProductCard'
-import { products, flavors, type ProductFilter } from './data/products'
-import cafeImage from './assets/cafe-ice-cream.png'
-import colorfulIceCreamImage from './assets/colorful-ice-cream.png'
-import dessertsImage from './assets/desserts.png'
-import employeeImage from './assets/employee.png'
-import glutenFreeIcon from './assets/gluten-free_17087068 1.svg'
-import girlWithIceCreamImage from './assets/girl-with-ice-cream.png'
-import heroImage from './assets/choco-in-vafel.png'
-import heroStar from './assets/Star 1.svg'
-import heroStrawberries from './assets/two-strawberries.png'
-import locationIcon from './assets/location.svg'
-import mailBagImage from './assets/mail-bag.png'
-import paleoIcon from './assets/avocado_7409338 1.svg'
-import restaurantImage from './assets/restaurant-ice-cream.png'
-import shopIcon from './assets/shop.svg'
-import strawberryImage from './assets/strawberry-ice-cream.png'
-import vehicleIcon from './assets/vehicle.svg'
-import veganIcon from './assets/vegan_8814602 1.svg'
-import arrowIcon from './assets/arrow-right.svg'
-import ketoIcon from './assets/avocado_9952003 1.svg'
-import purpleIceCreamImage from './assets/purple-ice-cream.png'
-import vanillaNoteImage from './assets/raspberry-ice-cream.png'
-import strawberryNoteImage from './assets/strawberry-ellipse.png'
-import { useCart } from './context/CartContext'
+import { ProductCard } from '../catalog/components/ProductCard'
+import { useProductCatalog } from '../catalog/model/useProductCatalog'
+import { useCart } from '../cart/model/useCart'
+import { flavors, products } from '../../entities/product/products'
+import cafeImage from '../../assets/cafe-ice-cream.png'
+import colorfulIceCreamImage from '../../assets/colorful-ice-cream.png'
+import dessertsImage from '../../assets/desserts.png'
+import employeeImage from '../../assets/employee.png'
+import glutenFreeIcon from '../../assets/gluten-free_17087068 1.svg'
+import girlWithIceCreamImage from '../../assets/girl-with-ice-cream.png'
+import heroImage from '../../assets/choco-in-vafel.png'
+import heroStar from '../../assets/Star 1.svg'
+import heroStrawberries from '../../assets/two-strawberries.png'
+import locationIcon from '../../assets/location.svg'
+import mailBagImage from '../../assets/mail-bag.png'
+import paleoIcon from '../../assets/avocado_7409338 1.svg'
+import restaurantImage from '../../assets/restaurant-ice-cream.png'
+import shopIcon from '../../assets/shop.svg'
+import strawberryImage from '../../assets/strawberry-ice-cream.png'
+import vehicleIcon from '../../assets/vehicle.svg'
+import veganIcon from '../../assets/vegan_8814602 1.svg'
+import arrowIcon from '../../assets/arrow-right.svg'
+import ketoIcon from '../../assets/avocado_9952003 1.svg'
+import purpleIceCreamImage from '../../assets/purple-ice-cream.png'
+import vanillaNoteImage from '../../assets/raspberry-ice-cream.png'
+import strawberryNoteImage from '../../assets/strawberry-ellipse.png'
 
-function App() {
-	const [activeFilter, setActiveFilter] = useState<ProductFilter>('all')
-	const [favoriteIds, setFavoriteIds] = useState<number[]>([])
+export function HomePage() {
+	const {
+		activeFilter,
+		favoriteIds,
+		toggleFavorite,
+		setActiveFilter,
+		visibleProducts,
+	} = useProductCatalog()
 	const { addToCart } = useCart()
-
-	const visibleProducts = products.filter((product) => {
-		if (activeFilter === 'new') {
-			return product.isNew
-		}
-
-		if (activeFilter === 'bestsellers') {
-			return product.isBestseller
-		}
-
-		return true
-	})
-
-	function toggleFavorite(productId: number) {
-		setFavoriteIds((currentIds) => {
-			if (currentIds.includes(productId)) {
-				return currentIds.filter((id) => id !== productId)
-			}
-
-			return [...currentIds, productId]
-		})
-	}
 
 	return (
 		<main className="home-page">
@@ -453,5 +436,3 @@ function App() {
 		</main>
 	)
 }
-
-export default App

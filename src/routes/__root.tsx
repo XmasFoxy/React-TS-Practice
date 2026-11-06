@@ -1,22 +1,5 @@
-import { createRootRoute, Outlet } from '@tanstack/react-router'
-import { SiteFooter } from '../components/SiteFooter'
-import { SiteHeader } from '../components/SiteHeader'
-import { CartProvider } from '../context/CartContext'
-import '../App.css'
-
-function RootLayout() {
-	return (
-		<CartProvider>
-			<div className="storefront">
-				<SiteHeader />
-
-				<Outlet />
-
-				<SiteFooter />
-			</div>
-		</CartProvider>
-	)
-}
+import { createRootRoute } from '@tanstack/react-router'
+import { RootLayout } from '../app/layout/RootLayout'
 
 export const Route = createRootRoute({
 	component: RootLayout,

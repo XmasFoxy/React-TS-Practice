@@ -1,5 +1,5 @@
 import { Link } from '@tanstack/react-router'
-import iceCreamLogo from '../assets/ice-cream-icon.svg'
+import iceCreamLogo from '../../assets/ice-cream-icon.svg'
 
 export function SiteFooter() {
 	return (

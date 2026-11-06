@@ -1,5 +1,5 @@
-import type { Product } from '../data/products'
-import starIcon from '../assets/Star 1.svg'
+import starIcon from '../../../assets/Star 1.svg'
+import type { Product } from '../../../entities/product/products'
 
 type ProductCardProps = {
 	isFavorite: boolean

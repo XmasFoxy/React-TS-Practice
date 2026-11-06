@@ -1,26 +1,6 @@
-import { Link, createFileRoute } from '@tanstack/react-router'
+import { createFileRoute } from '@tanstack/react-router'
+import { AccountPage } from '../features/account/AccountPage'
 
 export const Route = createFileRoute('/account')({
 	component: AccountPage,
 })
-
-function AccountPage() {
-	return (
-		<main className="account-page content-width">
-			<div className="account-card">
-				<p className="eyebrow">Welcome to Cuisine Ice Cream</p>
-
-				<h1>Your account</h1>
-
-				<p>
-					Account registration and sign-in with email and password will be
-					connected to Firebase in the next project step.
-				</p>
-
-				<Link className="button button-pink" to="/catalog">
-					Continue shopping
-				</Link>
-			</div>
-		</main>
-	)
-}
