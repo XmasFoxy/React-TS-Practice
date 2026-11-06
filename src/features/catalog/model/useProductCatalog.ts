@@ -1,10 +1,15 @@
 import { useState } from 'react'
 import { products } from '../../../entities/product/products'
+import { useAuth } from '../../auth/model/useAuth'
 import type { ProductFilter } from './productFilters'
 
 export function useProductCatalog() {
+	const { user } = useAuth()
 	const [activeFilter, setActiveFilter] = useState<ProductFilter>('all')
-	const [favoriteIds, setFavoriteIds] = useState<number[]>([])
+	const [favorites, setFavorites] = useState<{ ownerUid: string; productIds: number[] } | null>(null)
+	const favoriteIds = user && favorites?.ownerUid === user.uid
+		? favorites.productIds
+		: []
 
 	const visibleProducts = products.filter((product) => {
 		if (activeFilter === 'new') {
@@ -19,12 +24,26 @@ export function useProductCatalog() {
 	})
 
 	function toggleFavorite(productId: number) {
-		setFavoriteIds((currentIds) => {
+		if (!user) {
+			return
+		}
+
+		setFavorites((currentFavorites) => {
+			const currentIds = currentFavorites?.ownerUid === user.uid
+				? currentFavorites.productIds
+				: []
+
 			if (currentIds.includes(productId)) {
-				return currentIds.filter((id) => id !== productId)
+				return {
+					ownerUid: user.uid,
+					productIds: currentIds.filter((id) => id !== productId),
+				}
 			}
 
-			return [...currentIds, productId]
+			return {
+				ownerUid: user.uid,
+				productIds: [...currentIds, productId],
+			}
 		})
 	}
 

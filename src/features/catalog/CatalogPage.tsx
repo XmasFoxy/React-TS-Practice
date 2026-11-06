@@ -1,6 +1,7 @@
 import { useProductCatalog } from './model/useProductCatalog'
 import { ProductCard } from './components/ProductCard'
 import { useCart } from '../cart/model/useCart'
+import { useRequireAuth } from '../auth/model/useRequireAuth'
 import type { ProductFilter } from './model/productFilters'
 
 const filters: { label: string; value: ProductFilter }[] = [
@@ -18,6 +19,7 @@ export function CatalogPage() {
 		visibleProducts,
 	} = useProductCatalog()
 	const { addToCart } = useCart()
+	const requireAuth = useRequireAuth()
 
 	return (
 		<main className="store-page content-width">
@@ -45,8 +47,16 @@ export function CatalogPage() {
 					<ProductCard
 						isFavorite={favoriteIds.includes(product.id)}
 						key={product.id}
-						onAddToCart={() => addToCart(product.id)}
-						onToggleFavorite={() => toggleFavorite(product.id)}
+						onAddToCart={() => {
+							if (requireAuth()) {
+								addToCart(product.id)
+							}
+						}}
+						onToggleFavorite={() => {
+							if (requireAuth()) {
+								toggleFavorite(product.id)
+							}
+						}}
 						product={product}
 					/>
 				))}

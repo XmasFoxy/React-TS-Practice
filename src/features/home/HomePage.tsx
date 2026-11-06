@@ -1,4 +1,5 @@
 import { useCart } from '../cart/model/useCart'
+import { useRequireAuth } from '../auth/model/useRequireAuth'
 import { useProductCatalog } from '../catalog/model/useProductCatalog'
 import { HomeCatalogSection } from './components/HomeCatalogSection'
 import { HomeIntro } from './components/HomeIntro'
@@ -8,6 +9,7 @@ import { HomePromotionsSection } from './components/HomePromotionsSection'
 export function HomePage() {
 	const productCatalog = useProductCatalog()
 	const { addToCart } = useCart()
+	const requireAuth = useRequireAuth()
 
 	return (
 		<main className="home-page">
@@ -16,16 +18,32 @@ export function HomePage() {
 			<HomeCatalogSection
 				activeFilter={productCatalog.activeFilter}
 				favoriteIds={productCatalog.favoriteIds}
-				onAddToCart={addToCart}
+				onAddToCart={(productId) => {
+					if (requireAuth()) {
+						addToCart(productId)
+					}
+				}}
 				onSelectFilter={productCatalog.setActiveFilter}
-				onToggleFavorite={productCatalog.toggleFavorite}
+				onToggleFavorite={(productId) => {
+					if (requireAuth()) {
+						productCatalog.toggleFavorite(productId)
+					}
+				}}
 				visibleProducts={productCatalog.visibleProducts}
 			/>
 
 			<HomePromotionsSection
 				favoriteIds={productCatalog.favoriteIds}
-				onAddToCart={addToCart}
-				onToggleFavorite={productCatalog.toggleFavorite}
+				onAddToCart={(productId) => {
+					if (requireAuth()) {
+						addToCart(productId)
+					}
+				}}
+				onToggleFavorite={(productId) => {
+					if (requireAuth()) {
+						productCatalog.toggleFavorite(productId)
+					}
+				}}
 			/>
 
 			<HomeJournalSection />
