@@ -20,7 +20,7 @@ export function FavoritesPage() {
 	const favoriteProducts = products.filter((product) => favoriteIds.includes(product.id))
 
 	return (
-		<main className="store-page content-width">
+		<main className="store-page mx-auto min-h-[60vh] w-[calc(100%-64px)] max-w-[1180px] py-[68px] pb-[84px] max-[650px]:w-[calc(100%-36px)] max-[650px]:max-w-[500px] max-[650px]:py-[48px] max-[650px]:pb-[60px]">
 			<div className="section-heading">
 				<p className="eyebrow">Saved for a sweet moment</p>
 
@@ -37,7 +37,7 @@ export function FavoritesPage() {
 			/>
 
 			{favoriteProducts.length > 0 ? (
-				<div className="product-grid">
+				<div className="product-grid grid grid-cols-4 gap-[18px] max-[650px]:grid-cols-2 max-[650px]:gap-[11px] max-[370px]:gap-2">
 					{favoriteProducts.map((product) => (
 						<ProductCard
 							isFavorite={favoriteIds.includes(product.id)}
@@ -60,10 +60,12 @@ export function FavoritesPage() {
 					))}
 				</div>
 			) : (
-				<section className="favorites-empty">
-					<h2>No favorite flavors yet</h2>
+				<section className="grid min-h-[230px] justify-items-center content-center gap-3 rounded-xl border border-[var(--color-border)] bg-white p-7 text-center">
+					<h2 className="m-0 text-xl">No favorite flavors yet</h2>
 
-					<p>Tap the heart on any flavor in the shop to save it here.</p>
+					<p className="m-0 text-[13px] text-[var(--color-muted)]">
+						Tap the heart on any flavor in the shop to save it here.
+					</p>
 
 					<Link className="button button-pink" to="/catalog">
 						Explore the shop

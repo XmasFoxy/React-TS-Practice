@@ -46,14 +46,14 @@ export function ProductCard({
 	return (
 		<article
 			className={[
-				'product-card',
+				'product-card group flex min-w-0 flex-col overflow-hidden rounded-xl bg-white shadow-[0_5px_18px_rgba(52,35,31,0.08)]',
 				product.isSoldOut ? 'is-sold-out' : '',
 				variant === 'featured' ? 'product-card-featured' : '',
 			].filter(Boolean).join(' ')}
 		>
 			<div
 				className={[
-					'product-image-wrap',
+					'product-image-wrap relative aspect-square shrink-0 overflow-hidden bg-white',
 					product.imageKey === 'maca' ? 'product-image-wrap-maca' : '',
 				].filter(Boolean).join(' ')}
 			>
@@ -79,10 +79,20 @@ export function ProductCard({
 					</svg>
 				</button>
 
-				<img src={product.image} alt={product.name} loading="lazy" />
+				<img
+					className={[
+						'block size-full object-contain transition-transform duration-300 group-hover:scale-[1.03]',
+						product.imageKey === 'maca'
+							? 'scale-[1.08] object-cover group-hover:scale-[1.12]'
+							: '',
+					].filter(Boolean).join(' ')}
+					src={product.image}
+					alt={product.name}
+					loading="lazy"
+				/>
 			</div>
 
-			<div className="product-details">
+			<div className="product-details flex flex-1 flex-col p-[12px_13px_13px] max-[650px]:p-[10px]">
 				<div
 					className="product-rating"
 					role="img"
@@ -107,7 +117,7 @@ export function ProductCard({
 
 				<h3>{product.name}</h3>
 
-				<div className="product-buy-row">
+				<div className="mt-auto flex items-center justify-between pt-[9px]">
 					<span className="product-price">${product.price.toFixed(2)}</span>
 
 					<button

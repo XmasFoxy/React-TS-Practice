@@ -86,7 +86,7 @@ export function HomeCatalogSection({
 						))}
 					</div>
 
-					<div className="product-grid">
+					<div className="product-grid grid grid-cols-4 gap-[18px] max-[650px]:grid-cols-2 max-[650px]:gap-[11px] max-[370px]:gap-2">
 						{visibleProducts.map((product) => (
 							<ProductCard
 								isFavorite={favoriteIds.includes(product.id)}

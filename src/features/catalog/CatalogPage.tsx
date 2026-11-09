@@ -27,7 +27,7 @@ export function CatalogPage() {
 	const requireAuth = useRequireAuth()
 
 	return (
-		<main className="store-page content-width">
+		<main className="store-page mx-auto min-h-[60vh] w-[calc(100%-64px)] max-w-[1180px] py-[68px] pb-[84px] max-[650px]:w-[calc(100%-36px)] max-[650px]:max-w-[500px] max-[650px]:py-[48px] max-[650px]:pb-[60px]">
 			<div className="section-heading">
 				<p className="eyebrow">Scoop into something special</p>
 
@@ -56,7 +56,7 @@ export function CatalogPage() {
 				))}
 			</div>
 
-			<div className="product-grid">
+			<div className="product-grid grid grid-cols-4 gap-[18px] max-[650px]:grid-cols-2 max-[650px]:gap-[11px] max-[370px]:gap-2">
 				{visibleProducts.map((product) => (
 					<ProductCard
 						isFavorite={favoriteIds.includes(product.id)}
