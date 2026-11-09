@@ -1,5 +1,4 @@
 import { useEffect, useRef, useState } from 'react'
-import starIcon from '../../../assets/Star 1.svg'
 import cartIcon from '../../../assets/shopping-cart.svg'
 import type { Product } from '../../../entities/product/products'
 
@@ -52,7 +51,12 @@ export function ProductCard({
 				variant === 'featured' ? 'product-card-featured' : '',
 			].filter(Boolean).join(' ')}
 		>
-			<div className="product-image-wrap">
+			<div
+				className={[
+					'product-image-wrap',
+					product.imageKey === 'maca' ? 'product-image-wrap-maca' : '',
+				].filter(Boolean).join(' ')}
+			>
 				{product.badge && (
 					<span className={`product-badge ${product.badgeTone ?? ''}`}>
 						{product.badge}
@@ -79,10 +83,26 @@ export function ProductCard({
 			</div>
 
 			<div className="product-details">
-				<div className="product-rating" aria-label="Rated 5 out of 5">
-					{Array.from({ length: 5 }, (_, index) => (
-						<img src={starIcon} alt="" key={index} />
-					))}
+				<div
+					className="product-rating"
+					role="img"
+					aria-label={`Rated ${product.rating.toFixed(1)} out of 5`}
+				>
+					{Array.from({ length: 5 }, (_, index) => {
+						const fill = Math.max(0, Math.min(1, product.rating - index)) * 100
+
+						return (
+							<span className="product-rating-star" key={index} aria-hidden="true">
+								★
+								<span
+									className="product-rating-star-fill"
+									style={{ width: `${fill}%` }}
+								>
+									★
+								</span>
+							</span>
+						)
+					})}
 				</div>
 
 				<h3>{product.name}</h3>

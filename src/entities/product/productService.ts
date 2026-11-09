@@ -23,7 +23,7 @@ function readProduct(documentId: string, value: unknown): Product {
 	}
 
 	const id = Number(documentId)
-	const { name, price, imageKey, isNew, isBestseller } = value
+	const { name, price, rating, imageKey, isNew, isBestseller } = value
 	const isValidProduct =
 		Number.isSafeInteger(id)
 		&& id > 0
@@ -34,6 +34,10 @@ function readProduct(documentId: string, value: unknown): Product {
 		&& typeof price === 'number'
 		&& Number.isFinite(price)
 		&& price > 0
+		&& typeof rating === 'number'
+		&& Number.isFinite(rating)
+		&& rating >= 0
+		&& rating <= 5
 		&& isProductImageKey(imageKey)
 		&& typeof isNew === 'boolean'
 		&& typeof isBestseller === 'boolean'
@@ -49,6 +53,7 @@ function readProduct(documentId: string, value: unknown): Product {
 		id,
 		name: name.trim(),
 		price,
+		rating,
 		imageKey,
 		isNew,
 		isBestseller,

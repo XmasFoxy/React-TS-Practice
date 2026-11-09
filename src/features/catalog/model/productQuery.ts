@@ -21,7 +21,7 @@ export function useProductQuery(activeFilter: ProductFilter) {
 		}
 
 		if (activeFilter === 'bestsellers') {
-			return product.isBestseller
+			return product.rating > 3.5
 		}
 
 		return true

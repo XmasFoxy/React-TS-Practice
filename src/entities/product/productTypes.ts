@@ -21,6 +21,7 @@ export type ProductRecord = {
 	id: number
 	name: string
 	price: number
+	rating: number
 	imageKey: ProductImageKey
 	badge?: string
 	badgeTone?: string
