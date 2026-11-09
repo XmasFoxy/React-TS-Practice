@@ -15,15 +15,19 @@ export function CatalogPage() {
 	const {
 		activeFilter,
 		error,
+		favoriteError,
 		favoriteIds,
 		isLoading,
 		isUsingSampleProducts,
+		ratingError,
+		ratingPendingProductId,
 		refetch,
+		rateProduct,
 		setActiveFilter,
 		toggleFavorite,
 		visibleProducts,
 	} = useProductCatalog()
-	const { addToCart } = useCart()
+	const { addToCart, error: cartError } = useCart()
 	const requireAuth = useRequireAuth()
 
 	return (
@@ -42,6 +46,12 @@ export function CatalogPage() {
 					void refetch()
 				}}
 			/>
+
+			{cartError || favoriteError || ratingError ? (
+				<p className="auth-message auth-message-error" role="alert">
+					{cartError ?? favoriteError ?? ratingError}
+				</p>
+			) : null}
 
 			<div className="product-filters" aria-label="Filter products">
 				{filters.map((filter) => (
@@ -74,6 +84,12 @@ export function CatalogPage() {
 								toggleFavorite(product.id)
 							}
 						}}
+						onRateProduct={(rating) => {
+							if (requireAuth()) {
+								rateProduct(product.id, rating)
+							}
+						}}
+						isRatingPending={ratingPendingProductId === product.id}
 						product={product}
 					/>
 				))}

@@ -11,14 +11,18 @@ import strawberryNoteImage from '../../../assets/strawberry-ellipse.png'
 type HomePromotionsSectionProps = {
 	featuredProducts: Product[]
 	favoriteIds: number[]
+	ratingPendingProductId: number | null
 	onAddToCart: (productId: number) => boolean
+	onRateProduct: (productId: number, rating: number) => void
 	onToggleFavorite: (productId: number) => void
 }
 
 export function HomePromotionsSection({
 	featuredProducts,
 	favoriteIds,
+	ratingPendingProductId,
 	onAddToCart,
+	onRateProduct,
 	onToggleFavorite,
 }: HomePromotionsSectionProps) {
 	return (
@@ -135,6 +139,8 @@ export function HomePromotionsSection({
 								key={product.id}
 								onAddToCart={() => onAddToCart(product.id)}
 								onToggleFavorite={() => onToggleFavorite(product.id)}
+								onRateProduct={(rating) => onRateProduct(product.id, rating)}
+								isRatingPending={ratingPendingProductId === product.id}
 								product={product}
 								variant="featured"
 							/>

@@ -21,15 +21,16 @@ export type ProductRecord = {
 	id: number
 	name: string
 	price: number
-	rating: number
 	imageKey: ProductImageKey
 	badge?: string
 	badgeTone?: string
 	isSoldOut?: boolean
 	isNew: boolean
-	isBestseller: boolean
 }
 
 export type Product = ProductRecord & {
 	image: string
+	rating: number
+	ratingCount: number
+	userRating: number | null
 }

@@ -8,11 +8,16 @@ import arrowIcon from '../../../assets/arrow-right.svg'
 
 type HomeCatalogSectionProps = {
 	activeFilter: ProductFilter
+	cartError: string | null
 	favoriteIds: number[]
+	favoriteError: string | null
 	error: string | null
 	isLoading: boolean
 	isUsingSampleProducts: boolean
+	ratingError: string | null
+	ratingPendingProductId: number | null
 	onAddToCart: (productId: number) => boolean
+	onRateProduct: (productId: number, rating: number) => void
 	onSelectFilter: (filter: ProductFilter) => void
 	onRetry: () => void
 	onToggleFavorite: (productId: number) => void
@@ -27,11 +32,16 @@ const filters: { label: string; value: ProductFilter }[] = [
 
 export function HomeCatalogSection({
 	activeFilter,
+	cartError,
 	error,
 	favoriteIds,
+	favoriteError,
 	isLoading,
 	isUsingSampleProducts,
+	ratingError,
+	ratingPendingProductId,
 	onAddToCart,
+	onRateProduct,
 	onSelectFilter,
 	onRetry,
 	onToggleFavorite,
@@ -52,6 +62,12 @@ export function HomeCatalogSection({
 					isUsingSampleProducts={isUsingSampleProducts}
 					onRetry={onRetry}
 				/>
+
+				{cartError || favoriteError || ratingError ? (
+					<p className="auth-message auth-message-error" role="alert">
+						{cartError ?? favoriteError ?? ratingError}
+					</p>
+				) : null}
 
 				<div className="flavor-list">
 					{flavors.map((flavor) => (
@@ -93,6 +109,8 @@ export function HomeCatalogSection({
 								key={product.id}
 								onAddToCart={() => onAddToCart(product.id)}
 								onToggleFavorite={() => onToggleFavorite(product.id)}
+								onRateProduct={(rating) => onRateProduct(product.id, rating)}
+								isRatingPending={ratingPendingProductId === product.id}
 								product={product}
 							/>
 						))}

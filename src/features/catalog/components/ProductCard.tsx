@@ -6,13 +6,17 @@ type ProductCardProps = {
 	isFavorite: boolean
 	onAddToCart: () => boolean
 	onToggleFavorite: () => void
+	onRateProduct: (rating: number) => void
+	isRatingPending: boolean
 	product: Product
 	variant?: 'default' | 'featured'
 }
 
 export function ProductCard({
 	isFavorite,
+	isRatingPending,
 	onAddToCart,
+	onRateProduct,
 	onToggleFavorite,
 	product,
 	variant = 'default',
@@ -94,25 +98,45 @@ export function ProductCard({
 
 			<div className="product-details flex flex-1 flex-col p-[12px_13px_13px] max-[650px]:p-[10px]">
 				<div
-					className="product-rating"
-					role="img"
-					aria-label={`Rated ${product.rating.toFixed(1)} out of 5`}
+					className="product-rating-block"
+					role="group"
+					aria-label={`Rate ${product.name}`}
 				>
-					{Array.from({ length: 5 }, (_, index) => {
-						const fill = Math.max(0, Math.min(1, product.rating - index)) * 100
+					<div className="product-rating-stars">
+						{Array.from({ length: 5 }, (_, index) => {
+							const fill = Math.max(0, Math.min(1, product.rating - index)) * 100
 
-						return (
-							<span className="product-rating-star" key={index} aria-hidden="true">
-								★
-								<span
-									className="product-rating-star-fill"
-									style={{ width: `${fill}%` }}
+							return (
+								<button
+									className="product-rating-vote"
+									type="button"
+									key={index}
+									disabled={isRatingPending}
+									onClick={() => onRateProduct(index + 1)}
+									aria-label={`Rate ${product.name} ${index + 1} out of 5`}
+									aria-pressed={product.userRating === index + 1}
 								>
-									★
-								</span>
-							</span>
-						)
-					})}
+									<span className="product-rating-star" aria-hidden="true">
+										★
+										<span
+											className="product-rating-star-fill"
+											style={{ width: `${fill}%` }}
+										>
+											★
+										</span>
+									</span>
+								</button>
+							)
+						})}
+					</div>
+
+					<span className="product-rating-summary" aria-live="polite">
+						{isRatingPending
+							? 'Saving...'
+							: product.ratingCount > 0
+								? `${product.rating.toFixed(1)} (${product.ratingCount})`
+								: 'No ratings yet'}
+					</span>
 				</div>
 
 				<h3>{product.name}</h3>

@@ -4,18 +4,24 @@ import { useRequireAuth } from '../auth/model/useRequireAuth'
 import { ProductCard } from '../catalog/components/ProductCard'
 import { ProductCatalogNotice } from '../catalog/components/ProductCatalogNotice'
 import { useProductCatalog } from '../catalog/model/useProductCatalog'
+import { useFavorites } from './model/useFavorites'
 
 export function FavoritesPage() {
 	const {
-		error,
+		error: productError,
+		favoriteError,
 		favoriteIds,
 		isLoading,
 		isUsingSampleProducts,
 		products,
+		ratingError,
+		ratingPendingProductId,
+		rateProduct,
 		refetch,
 		toggleFavorite,
 	} = useProductCatalog()
-	const { addToCart } = useCart()
+	const { error: favoritesError, isLoading: isFavoritesLoading } = useFavorites()
+	const { addToCart, error: cartError } = useCart()
 	const requireAuth = useRequireAuth()
 	const favoriteProducts = products.filter((product) => favoriteIds.includes(product.id))
 
@@ -28,7 +34,7 @@ export function FavoritesPage() {
 			</div>
 
 			<ProductCatalogNotice
-				error={error}
+				error={productError}
 				isLoading={isLoading}
 				isUsingSampleProducts={isUsingSampleProducts}
 				onRetry={() => {
@@ -36,7 +42,15 @@ export function FavoritesPage() {
 				}}
 			/>
 
-			{favoriteProducts.length > 0 ? (
+			{cartError || favoritesError || favoriteError || ratingError ? (
+				<p className="auth-message auth-message-error" role="alert">
+					{cartError ?? favoritesError ?? favoriteError ?? ratingError}
+				</p>
+			) : null}
+
+			{isFavoritesLoading || isLoading ? (
+				<p className="catalog-notice" role="status">Loading your saved favorites...</p>
+			) : favoriteProducts.length > 0 ? (
 				<div className="product-grid grid grid-cols-4 gap-[18px] max-[650px]:grid-cols-2 max-[650px]:gap-[11px] max-[370px]:gap-2">
 					{favoriteProducts.map((product) => (
 						<ProductCard
@@ -55,6 +69,12 @@ export function FavoritesPage() {
 									toggleFavorite(product.id)
 								}
 							}}
+							onRateProduct={(rating) => {
+								if (requireAuth()) {
+									rateProduct(product.id, rating)
+								}
+							}}
+							isRatingPending={ratingPendingProductId === product.id}
 							product={product}
 						/>
 					))}

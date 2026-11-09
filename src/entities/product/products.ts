@@ -45,6 +45,9 @@ export const productImages = {
 export const products: Product[] = productRecords.map((product) => ({
 	...product,
 	image: productImages[product.imageKey],
+	rating: 0,
+	ratingCount: 0,
+	userRating: null,
 }))
 
 export const flavors = [

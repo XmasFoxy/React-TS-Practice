@@ -23,7 +23,7 @@ function readProduct(documentId: string, value: unknown): Product {
 	}
 
 	const id = Number(documentId)
-	const { name, price, rating, imageKey, isNew, isBestseller } = value
+	const { name, price, imageKey, isNew } = value
 	const isValidProduct =
 		Number.isSafeInteger(id)
 		&& id > 0
@@ -34,13 +34,8 @@ function readProduct(documentId: string, value: unknown): Product {
 		&& typeof price === 'number'
 		&& Number.isFinite(price)
 		&& price > 0
-		&& typeof rating === 'number'
-		&& Number.isFinite(rating)
-		&& rating >= 0
-		&& rating <= 5
 		&& isProductImageKey(imageKey)
 		&& typeof isNew === 'boolean'
-		&& typeof isBestseller === 'boolean'
 		&& (value.isSoldOut === undefined || typeof value.isSoldOut === 'boolean')
 		&& (value.badge === undefined || typeof value.badge === 'string')
 		&& (value.badgeTone === undefined || typeof value.badgeTone === 'string')
@@ -53,10 +48,8 @@ function readProduct(documentId: string, value: unknown): Product {
 		id,
 		name: name.trim(),
 		price,
-		rating,
 		imageKey,
 		isNew,
-		isBestseller,
 	}
 
 	if (typeof value.isSoldOut === 'boolean') {
@@ -74,10 +67,23 @@ function readProduct(documentId: string, value: unknown): Product {
 	return {
 		...productRecord,
 		image: productImages[imageKey],
+		rating: 0,
+		ratingCount: 0,
+		userRating: null,
 	}
 }
 
-export async function getProductsFromFirestore(): Promise<Product[]> {
+function readRating(value: unknown, documentId: string): number {
+	if (!isRecord(value) || typeof value.value !== 'number'
+		|| !Number.isInteger(value.value) || value.value < 1 || value.value > 5
+	) {
+		throw new Error(`Rating document "${documentId}" has an invalid value.`)
+	}
+
+	return value.value
+}
+
+export async function getProductsFromFirestore(userId?: string): Promise<Product[]> {
 	const app = getFirebaseApp()
 
 	if (!app) {
@@ -98,11 +104,67 @@ export async function getProductsFromFirestore(): Promise<Product[]> {
 	const snapshot = await Promise.race([snapshotPromise, timeoutPromise])
 		.finally(() => clearTimeout(timeoutId))
 
-	const loadedProducts = snapshot.docs.map((document) =>
+	const products = snapshot.docs.map((document) =>
 		readProduct(document.id, document.data()),
 	)
 
+	const loadedProducts = await Promise.all(products.map(async (product) => {
+		const ratingSnapshot = await firestore.getDocs(
+			firestore.collection(database, 'products', String(product.id), 'ratings'),
+		)
+		const ratings = ratingSnapshot.docs.map((document) =>
+			readRating(document.data(), document.id),
+		)
+		const currentUserRating = userId
+			? ratingSnapshot.docs.find((document) => document.id === userId)
+			: undefined
+
+		return {
+			...product,
+			rating: ratings.length
+				? ratings.reduce((total, rating) => total + rating, 0) / ratings.length
+				: 0,
+			ratingCount: ratings.length,
+			userRating: currentUserRating
+				? readRating(currentUserRating.data(), currentUserRating.id)
+				: null,
+		}
+	}))
+
 	return loadedProducts.sort((first, second) => first.id - second.id)
+}
+
+export async function saveProductRating(
+	productId: number,
+	userId: string,
+	rating: number,
+): Promise<void> {
+	if (!Number.isSafeInteger(productId) || productId < 1
+		|| !Number.isInteger(rating) || rating < 1 || rating > 5
+	) {
+		throw new Error('A product rating must be a whole number from 1 to 5.')
+	}
+
+	const app = getFirebaseApp()
+
+	if (!app) {
+		throw new Error('Firebase is not configured.')
+	}
+
+	const firestore = await import('firebase/firestore')
+	const database = firestore.getFirestore(app)
+	const ratingReference = firestore.doc(
+		database,
+		'products',
+		String(productId),
+		'ratings',
+		userId,
+	)
+
+	await firestore.setDoc(ratingReference, {
+		value: rating,
+		updatedAt: firestore.serverTimestamp(),
+	})
 }
 
 export function getProductLoadErrorMessage(error: unknown) {
@@ -112,7 +174,7 @@ export function getProductLoadErrorMessage(error: unknown) {
 				return 'Cloud Firestore is disabled for this Firebase project. Enable the Firestore API and create the database in the Firebase console.'
 			}
 
-			return 'Firestore denied access to the products collection. Check the deployed Firestore rules.'
+			return 'Firestore denied access to the product catalog or ratings. Check the deployed Firestore rules.'
 		}
 
 		if (error.code === 'failed-precondition') {
@@ -137,4 +199,16 @@ export function getProductLoadErrorMessage(error: unknown) {
 	}
 
 	return 'Could not load products from Firestore. The sample catalog is shown instead.'
+}
+
+export function getProductRatingErrorMessage(error: unknown) {
+	if (error instanceof FirebaseError && error.code === 'permission-denied') {
+		return 'Firestore rejected the rating. Confirm the latest Firestore rules have been deployed.'
+	}
+
+	if (error instanceof Error) {
+		return error.message
+	}
+
+	return 'Could not save your rating.'
 }

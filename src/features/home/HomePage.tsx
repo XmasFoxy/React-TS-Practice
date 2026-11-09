@@ -8,7 +8,7 @@ import { HomePromotionsSection } from './components/HomePromotionsSection'
 
 export function HomePage() {
 	const productCatalog = useProductCatalog()
-	const { addToCart } = useCart()
+	const { addToCart, error: cartError } = useCart()
 	const requireAuth = useRequireAuth()
 
 	return (
@@ -17,10 +17,14 @@ export function HomePage() {
 
 			<HomeCatalogSection
 				activeFilter={productCatalog.activeFilter}
+				cartError={cartError}
 				error={productCatalog.error}
 				favoriteIds={productCatalog.favoriteIds}
+				favoriteError={productCatalog.favoriteError}
 				isLoading={productCatalog.isLoading}
 				isUsingSampleProducts={productCatalog.isUsingSampleProducts}
+				ratingError={productCatalog.ratingError}
+				ratingPendingProductId={productCatalog.ratingPendingProductId}
 				onAddToCart={(productId) => {
 					if (!requireAuth()) {
 						return false
@@ -38,12 +42,18 @@ export function HomePage() {
 						productCatalog.toggleFavorite(productId)
 					}
 				}}
+				onRateProduct={(productId, rating) => {
+					if (requireAuth()) {
+						productCatalog.rateProduct(productId, rating)
+					}
+				}}
 				visibleProducts={productCatalog.visibleProducts.slice(0, 8)}
 			/>
 
 			<HomePromotionsSection
 				featuredProducts={productCatalog.products.slice(0, 4)}
 				favoriteIds={productCatalog.favoriteIds}
+				ratingPendingProductId={productCatalog.ratingPendingProductId}
 				onAddToCart={(productId) => {
 					if (!requireAuth()) {
 						return false
@@ -55,6 +65,11 @@ export function HomePage() {
 				onToggleFavorite={(productId) => {
 					if (requireAuth()) {
 						productCatalog.toggleFavorite(productId)
+					}
+				}}
+				onRateProduct={(productId, rating) => {
+					if (requireAuth()) {
+						productCatalog.rateProduct(productId, rating)
 					}
 				}}
 			/>

@@ -928,10 +928,32 @@
 	transform: scale(1.08);
 }
 
-.product-rating {
+.product-rating-block {
 	display: flex;
+	align-items: center;
 	gap: 2px;
 	margin-bottom: 4px;
+}
+
+.product-rating-stars {
+	display: flex;
+	gap: 1px;
+}
+
+.product-rating-vote {
+	display: grid;
+	padding: 0;
+	border: 0;
+	background: transparent;
+	cursor: pointer;
+}
+
+.product-rating-vote:disabled {
+	cursor: wait;
+}
+
+.product-rating-vote[aria-pressed="true"] .product-rating-star {
+	color: var(--color-pink-dark);
 }
 
 .product-rating-star {
@@ -940,6 +962,13 @@
 	color: #d6d1cf;
 	font-size: 12px;
 	line-height: 1;
+}
+
+.product-rating-summary {
+	margin-left: 4px;
+	color: var(--color-muted);
+	font-size: 9px;
+	white-space: nowrap;
 }
 
 .product-rating-star-fill {

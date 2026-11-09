@@ -2,14 +2,17 @@ import { useQuery } from '@tanstack/react-query'
 import { isFirebaseConfigured } from '../../auth/model/firebase'
 import { getProductLoadErrorMessage, getProductsFromFirestore } from '../../../entities/product/productService'
 import { products as sampleProducts } from '../../../entities/product/products'
+import { useAuth } from '../../auth/model/useAuth'
 import type { ProductFilter } from './productFilters'
 
-export const productsQueryKey = ['products'] as const
+export const productsQueryKey = (userId?: string) => ['products', userId] as const
 
 export function useProductQuery(activeFilter: ProductFilter) {
+	const { user } = useAuth()
+	const userId = user?.uid
 	const query = useQuery({
-		queryKey: productsQueryKey,
-		queryFn: getProductsFromFirestore,
+		queryKey: productsQueryKey(userId),
+		queryFn: () => getProductsFromFirestore(userId),
 		enabled: isFirebaseConfigured(),
 		retry: false,
 	})
