@@ -1,40 +1,12 @@
 import { useState } from 'react'
-import { useAuth } from '../../auth/model/useAuth'
+import { useFavorites } from '../../favorites/model/useFavorites'
 import type { ProductFilter } from './productFilters'
 import { useProductQuery } from './productQuery'
 
 export function useProductCatalog() {
-	const { user } = useAuth()
+	const { favoriteIds, toggleFavorite } = useFavorites()
 	const [activeFilter, setActiveFilter] = useState<ProductFilter>('all')
-	const [favorites, setFavorites] = useState<{ ownerUid: string; productIds: number[] } | null>(null)
 	const productQuery = useProductQuery(activeFilter)
-	const favoriteIds = user && favorites?.ownerUid === user.uid
-		? favorites.productIds
-		: []
-
-	function toggleFavorite(productId: number) {
-		if (!user) {
-			return
-		}
-
-		setFavorites((currentFavorites) => {
-			const currentIds = currentFavorites?.ownerUid === user.uid
-				? currentFavorites.productIds
-				: []
-
-			if (currentIds.includes(productId)) {
-				return {
-					ownerUid: user.uid,
-					productIds: currentIds.filter((id) => id !== productId),
-				}
-			}
-
-			return {
-				ownerUid: user.uid,
-				productIds: [...currentIds, productId],
-			}
-		})
-	}
 
 	return {
 		activeFilter,

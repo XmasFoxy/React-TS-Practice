@@ -1,6 +1,7 @@
 import { Outlet } from '@tanstack/react-router'
 import { AuthProvider } from '../../features/auth/model/AuthProvider'
 import { CartProvider } from '../../features/cart/model/CartProvider'
+import { FavoritesProvider } from '../../features/favorites/model/FavoritesProvider'
 import { SiteFooter } from '../../shared/layout/SiteFooter'
 import { SiteHeader } from '../../shared/layout/SiteHeader'
 import '../styles.css'
@@ -8,15 +9,17 @@ import '../styles.css'
 export function RootLayout() {
 	return (
 		<AuthProvider>
-			<CartProvider>
-				<div className="storefront">
-					<SiteHeader />
+			<FavoritesProvider>
+				<CartProvider>
+					<div className="storefront">
+						<SiteHeader />
 
-					<Outlet />
+						<Outlet />
 
-					<SiteFooter />
-				</div>
-			</CartProvider>
+						<SiteFooter />
+					</div>
+				</CartProvider>
+			</FavoritesProvider>
 		</AuthProvider>
 	)
 }

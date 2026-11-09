@@ -26,7 +26,7 @@ export function SiteHeader() {
 						<img src={profileIcon} alt="" />
 					</Link>
 
-					<Link className="announcement-icon-link" to="/catalog" aria-label="Your favorites">
+					<Link className="announcement-icon-link" to="/favorites" aria-label="Your favorites">
 						<img src={favoriteIcon} alt="" />
 					</Link>
 
