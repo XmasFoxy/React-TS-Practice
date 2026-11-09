@@ -8,6 +8,8 @@ export type CartItem = {
 type CartContextValue = {
 	items: CartItem[]
 	itemCount: number
+	isLoading: boolean
+	error: string | null
 	addToCart: (productId: number) => void
 	removeFromCart: (productId: number) => void
 	updateQuantity: (productId: number, quantity: number) => void

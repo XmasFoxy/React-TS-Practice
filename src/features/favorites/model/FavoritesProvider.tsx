@@ -1,4 +1,6 @@
-import { useEffect, useMemo, useState, type ReactNode } from 'react'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import type { ReactNode } from 'react'
+import { getFavoritesFromFirestore, getUserDataErrorMessage, setFavoriteInFirestore } from '../../../entities/userData/userDataService'
 import { useAuth } from '../../auth/model/useAuth'
 import { FavoritesContext } from './FavoritesContext'
 
@@ -6,82 +8,72 @@ type FavoritesProviderProps = {
 	children: ReactNode
 }
 
-type FavoriteState = {
-	ownerUid: string
-	productIds: number[]
-}
-
-function isProductIdArray(value: unknown): value is number[] {
-	return Array.isArray(value)
-		&& value.every((productId: unknown) =>
-			typeof productId === 'number'
-			&& Number.isSafeInteger(productId)
-			&& productId > 0,
-		)
-}
-
-function readFavoriteIds(userId: string): number[] {
-	const storedFavorites = window.localStorage.getItem(`gelato-favorites:${userId}`)
-
-	if (!storedFavorites) {
-		return []
-	}
-
-	const parsedFavorites: unknown = JSON.parse(storedFavorites)
-
-	if (!isProductIdArray(parsedFavorites)) {
-		throw new Error(`Saved favorites for user "${userId}" are invalid.`)
-	}
-
-	return parsedFavorites
+type FavoriteMutation = {
+	userId: string
+	productId: number
+	isFavorite: boolean
 }
 
 export function FavoritesProvider({ children }: FavoritesProviderProps) {
 	const { user } = useAuth()
-	const userId = user?.uid ?? null
-	const [favorites, setFavorites] = useState<FavoriteState | null>(null)
-	const favoriteIds = useMemo(() => {
-		if (!userId) {
-			return []
-		}
-
-		return favorites?.ownerUid === userId
-			? favorites.productIds
-			: readFavoriteIds(userId)
-	}, [favorites, userId])
-
-	useEffect(() => {
-		if (!userId || favorites?.ownerUid !== userId) {
-			return
-		}
-
-		window.localStorage.setItem(
-			`gelato-favorites:${userId}`,
-			JSON.stringify(favorites.productIds),
-		)
-	}, [favorites, userId])
-
-	function toggleFavorite(productId: number) {
-		if (!userId) {
-			return
-		}
-
-		setFavorites((currentFavorites) => {
-			const currentIds = currentFavorites?.ownerUid === userId
-				? currentFavorites.productIds
-				: favoriteIds
-
-			return {
-				ownerUid: userId,
-				productIds: currentIds.includes(productId)
-					? currentIds.filter((id) => id !== productId)
-					: [...currentIds, productId],
+	const queryClient = useQueryClient()
+	const userId = user?.uid
+	const queryKey = ['favorites', userId] as const
+	const favoritesQuery = useQuery({
+		queryKey,
+		queryFn: () => {
+			if (!userId) {
+				throw new Error('You must be signed in to load favorites.')
 			}
-		})
-	}
+
+			return getFavoritesFromFirestore(userId)
+		},
+		enabled: Boolean(userId),
+		retry: false,
+	})
+	const favoriteMutation = useMutation({
+		mutationFn: ({ userId: ownerId, productId, isFavorite }: FavoriteMutation) =>
+			setFavoriteInFirestore(ownerId, productId, isFavorite),
+		onMutate: async ({ productId, isFavorite }) => {
+			await queryClient.cancelQueries({ queryKey })
+			const previousIds = queryClient.getQueryData<number[]>(queryKey) ?? []
+			const nextIds = isFavorite
+				? [...new Set([...previousIds, productId])]
+				: previousIds.filter((id) => id !== productId)
+
+			queryClient.setQueryData(queryKey, nextIds)
+
+			return { previousIds }
+		},
+		onError: (_error, _variables, context) => {
+			if (context) {
+				queryClient.setQueryData(queryKey, context.previousIds)
+			}
+		},
+		onSettled: () => queryClient.invalidateQueries({ queryKey }),
+	})
+	const favoriteIds = userId ? favoritesQuery.data ?? [] : []
+	const error = favoritesQuery.error ?? favoriteMutation.error
 
 	return (
-		<FavoritesContext.Provider value={{ favoriteIds, toggleFavorite }}>
+		<FavoritesContext.Provider
+			value={{
+				favoriteIds,
+				isLoading: Boolean(userId) && favoritesQuery.isPending,
+				error: error ? getUserDataErrorMessage(error) : null,
+				toggleFavorite: (productId) => {
+					if (!userId) {
+						return
+					}
+
+					favoriteMutation.mutate({
+						userId,
+						productId,
+						isFavorite: !favoriteIds.includes(productId),
+					})
+				},
+			}}
+		>
 			{children}
 		</FavoritesContext.Provider>
 	)

@@ -4,7 +4,7 @@ import { ProductCatalogNotice } from '../catalog/components/ProductCatalogNotice
 import { useProductQuery } from '../catalog/model/productQuery'
 
 export function CartPage() {
-	const { items, itemCount, removeFromCart, updateQuantity } = useCart()
+	const { items, itemCount, removeFromCart, updateQuantity, isLoading, error } = useCart()
 	const productQuery = useProductQuery('all')
 
 	const cartItems = items.flatMap((item) => {
@@ -30,6 +30,12 @@ export function CartPage() {
 				<h1>Your shopping bag</h1>
 			</div>
 
+			{error ? (
+				<p className="auth-message auth-message-error" role="alert">
+					{error}
+				</p>
+			) : null}
+
 			<ProductCatalogNotice
 				error={productQuery.error}
 				isLoading={productQuery.isLoading}
@@ -39,7 +45,9 @@ export function CartPage() {
 				}}
 			/>
 
-			{cartItems.length === 0 ? (
+			{isLoading ? (
+				<p className="catalog-notice" role="status">Loading your shopping bag...</p>
+			) : cartItems.length === 0 ? (
 				<div className="empty-cart">
 					<h2>Your bag is waiting for a treat</h2>
 

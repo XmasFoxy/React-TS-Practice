@@ -2,9 +2,54 @@ rules_version = '2';
 
 service cloud.firestore {
 	match /databases/{database}/documents {
+		function isSignedInAs(userId) {
+			return request.auth != null && request.auth.uid == userId;
+		}
+
+		function isValidCartItem(data) {
+			return data.keys().hasOnly(['quantity'])
+				&& data.quantity is int
+				&& data.quantity > 0;
+		}
+
+		function isValidFavorite(data) {
+			return data.keys().hasOnly(['productId'])
+				&& data.productId is int
+				&& data.productId > 0;
+		}
+
+		function isValidRating(data) {
+			return data.keys().hasOnly(['value', 'updatedAt'])
+				&& data.value is int
+				&& data.value >= 1
+				&& data.value <= 5
+				&& data.updatedAt == request.time;
+		}
+
 		match /products/{productId} {
 			allow get, list: if true;
 			allow create, update, delete: if false;
+
+			match /ratings/{userId} {
+				allow get, list: if true;
+				allow create, update: if isSignedInAs(userId)
+					&& isValidRating(request.resource.data);
+				allow delete: if isSignedInAs(userId);
+			}
+		}
+
+		match /users/{userId}/cart/{productId} {
+			allow get, list: if isSignedInAs(userId);
+			allow create, update: if isSignedInAs(userId)
+				&& isValidCartItem(request.resource.data);
+			allow delete: if isSignedInAs(userId);
+		}
+
+		match /users/{userId}/favorites/{productId} {
+			allow get, list: if isSignedInAs(userId);
+			allow create, update: if isSignedInAs(userId)
+				&& isValidFavorite(request.resource.data);
+			allow delete: if isSignedInAs(userId);
 		}
 	}
 }
