@@ -102,19 +102,31 @@ export function HomeCatalogSection({
 						))}
 					</div>
 
-					<div className="product-grid grid grid-cols-4 gap-[18px] max-[650px]:grid-cols-2 max-[650px]:gap-[11px] max-[370px]:gap-2">
-						{visibleProducts.map((product) => (
-							<ProductCard
-								isFavorite={favoriteIds.includes(product.id)}
-								key={product.id}
-								onAddToCart={() => onAddToCart(product.id)}
-								onToggleFavorite={() => onToggleFavorite(product.id)}
-								onRateProduct={(rating) => onRateProduct(product.id, rating)}
-								isRatingPending={ratingPendingProductId === product.id}
-								product={product}
-							/>
-						))}
-					</div>
+					{visibleProducts.length > 0 ? (
+						<div className="product-grid grid grid-cols-4 gap-[18px] max-[650px]:grid-cols-2 max-[650px]:gap-[11px] max-[370px]:gap-2">
+							{visibleProducts.map((product) => (
+								<ProductCard
+									isFavorite={favoriteIds.includes(product.id)}
+									key={product.id}
+									onAddToCart={() => onAddToCart(product.id)}
+									onToggleFavorite={() => onToggleFavorite(product.id)}
+									onRateProduct={(rating) => onRateProduct(product.id, rating)}
+									isRatingPending={ratingPendingProductId === product.id}
+									product={product}
+								/>
+							))}
+						</div>
+					) : activeFilter === 'bestsellers' ? (
+						<section className="catalog-empty-state">
+							<h3>No top trending flavors yet</h3>
+
+							<p>Rate flavors in the shop to help the best-rated ones appear here.</p>
+
+							<Link className="button button-pink" to="/catalog">
+								Rate flavors in the shop
+							</Link>
+						</section>
+					) : null}
 
 					<Link className="button button-pink products-cta" to="/catalog">
 						View All Products <img className="arrow-icon" src={arrowIcon} alt="" />

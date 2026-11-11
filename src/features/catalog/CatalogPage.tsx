@@ -66,34 +66,50 @@ export function CatalogPage() {
 				))}
 			</div>
 
-			<div className="product-grid grid grid-cols-4 gap-[18px] max-[650px]:grid-cols-2 max-[650px]:gap-[11px] max-[370px]:gap-2">
-				{visibleProducts.map((product) => (
-					<ProductCard
-						isFavorite={favoriteIds.includes(product.id)}
-						key={product.id}
-						onAddToCart={() => {
-							if (!requireAuth()) {
-								return false
-							}
+			{visibleProducts.length > 0 ? (
+				<div className="product-grid grid grid-cols-4 gap-[18px] max-[650px]:grid-cols-2 max-[650px]:gap-[11px] max-[370px]:gap-2">
+					{visibleProducts.map((product) => (
+						<ProductCard
+							isFavorite={favoriteIds.includes(product.id)}
+							key={product.id}
+							onAddToCart={() => {
+								if (!requireAuth()) {
+									return false
+								}
 
-							addToCart(product.id)
-							return true
-						}}
-						onToggleFavorite={() => {
-							if (requireAuth()) {
-								toggleFavorite(product.id)
-							}
-						}}
-						onRateProduct={(rating) => {
-							if (requireAuth()) {
-								rateProduct(product.id, rating)
-							}
-						}}
-						isRatingPending={ratingPendingProductId === product.id}
-						product={product}
-					/>
-				))}
-			</div>
+								addToCart(product.id)
+								return true
+							}}
+							onToggleFavorite={() => {
+								if (requireAuth()) {
+									toggleFavorite(product.id)
+								}
+							}}
+							onRateProduct={(rating) => {
+								if (requireAuth()) {
+									rateProduct(product.id, rating)
+								}
+							}}
+							isRatingPending={ratingPendingProductId === product.id}
+							product={product}
+						/>
+					))}
+				</div>
+			) : activeFilter === 'bestsellers' ? (
+				<section className="catalog-empty-state">
+					<h2>No top trending flavors yet</h2>
+
+					<p>Rate flavors in the shop to help the best-rated ones appear here.</p>
+
+					<button
+						className="button button-pink"
+						type="button"
+						onClick={() => setActiveFilter('all')}
+					>
+						Go to the shop and rate a flavor
+					</button>
+				</section>
+			) : null}
 		</main>
 	)
 }

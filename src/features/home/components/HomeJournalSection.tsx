@@ -1,3 +1,4 @@
+import { useState, type FormEvent } from 'react'
 import cafeImage from '../../../assets/cafe-ice-cream.png'
 import calendarIcon from '../../../assets/calendar.svg'
 import employeeImage from '../../../assets/employee.png'
@@ -8,7 +9,6 @@ import mailBagImage from '../../../assets/mail-bag.png'
 import paleoIcon from '../../../assets/avocado_7409338 1.svg'
 import restaurantImage from '../../../assets/restaurant-ice-cream.png'
 import smsIcon from '../../../assets/sms.svg'
-import starIcon from '../../../assets/Star 1.svg'
 import veganIcon from '../../../assets/vegan_8814602 1.svg'
 import arrowIcon from '../../../assets/arrow-right.svg'
 
@@ -52,6 +52,15 @@ const reviews = [
 ]
 
 export function HomeJournalSection() {
+	const [newsletterEmail, setNewsletterEmail] = useState('')
+	const [newsletterMessage, setNewsletterMessage] = useState<string | null>(null)
+
+	function handleNewsletterSubmit(event: FormEvent<HTMLFormElement>) {
+		event.preventDefault()
+		setNewsletterEmail('')
+		setNewsletterMessage('Thank you! You are successfully subscribed.')
+	}
+
 	return (
 		<>
 			<section className="journal-section content-width" id="journal">
@@ -120,10 +129,22 @@ export function HomeJournalSection() {
 			<section className="testimonials">
 				<div className="section-heading testimonial-heading">
 					<p className="testimonial-rating">
-						<span aria-hidden="true">
-							{Array.from({ length: 5 }, (_, index) => (
-								<img src={starIcon} alt="" key={index} />
-							))}
+						<span className="testimonial-stars" aria-label="Rated 4.8 out of 5">
+							{Array.from({ length: 5 }, (_, index) => {
+								const fill = Math.max(0, Math.min(1, 4.8 - index)) * 100
+
+								return (
+									<span className="testimonial-star" aria-hidden="true" key={index}>
+										★
+										<span
+											className="testimonial-star-fill"
+											style={{ width: `${fill}%` }}
+										>
+											★
+										</span>
+									</span>
+								)
+							})}
 						</span>
 						4.8/5 TRUSTED BY 199,087 CLIENTS
 					</p>
@@ -172,20 +193,31 @@ export function HomeJournalSection() {
 						online order with Cuisine.
 					</p>
 
-					<form className="newsletter-form" onSubmit={(event) => event.preventDefault()}>
+					<form className="newsletter-form" onSubmit={handleNewsletterSubmit}>
 						<label className="visually-hidden" htmlFor="newsletter-email">Your email address</label>
 
 						<input
 							autoComplete="email"
 							id="newsletter-email"
 							name="email"
+							onChange={(event) => {
+								setNewsletterEmail(event.currentTarget.value)
+								setNewsletterMessage(null)
+							}}
 							placeholder="Enter Your Email"
 							required
 							type="email"
+							value={newsletterEmail}
 						/>
 
 						<button className="button button-pink" type="submit">Subscribe</button>
 					</form>
+
+					{newsletterMessage ? (
+						<p className="newsletter-success" role="status">
+							{newsletterMessage}
+						</p>
+					) : null}
 				</div>
 
 				<div className="newsletter-decoration newsletter-decoration-right" aria-hidden="true">

@@ -1,5 +1,12 @@
 .storefront {
+	display: flex;
+	min-height: 100vh;
+	flex-direction: column;
 	overflow: hidden;
+}
+
+.storefront > main {
+	flex: 1;
 }
 
 .story-link-list {
@@ -89,6 +96,7 @@
 .account-page {
 	display: grid;
 	place-items: center;
+	padding-block: 48px;
 }
 
 .account-card {
@@ -803,6 +811,29 @@
 	margin-inline: auto;
 }
 
+.catalog-empty-state {
+	display: grid;
+	justify-items: center;
+	gap: 12px;
+	padding: 42px 20px;
+	border: 1px solid var(--color-border);
+	border-radius: 12px;
+	background: #fff;
+	text-align: center;
+}
+
+.catalog-empty-state h2,
+.catalog-empty-state h3,
+.catalog-empty-state p {
+	margin: 0;
+}
+
+.catalog-empty-state p {
+	color: var(--color-muted);
+	font-size: 13px;
+	line-height: 1.6;
+}
+
 .flavor-item {
 	display: flex;
 	flex-direction: column;
@@ -1380,11 +1411,20 @@
 	gap: 2px;
 }
 
-.testimonial-rating img {
-	width: 11px;
-	height: 11px;
-	filter: grayscale(1);
-	opacity: 0.7;
+.testimonial-star {
+	position: relative;
+	color: #d6d1cf;
+	font-size: 13px;
+	line-height: 1;
+}
+
+.testimonial-star-fill {
+	position: absolute;
+	top: 0;
+	left: 0;
+	overflow: hidden;
+	color: #f1b928;
+	white-space: nowrap;
 }
 
 .testimonial-section {
@@ -1497,6 +1537,13 @@
 
 .newsletter-form .button {
 	flex-shrink: 0;
+}
+
+.newsletter-success {
+	margin: 12px 0 0;
+	color: #41834c;
+	font-size: 12px;
+	font-weight: 700;
 }
 
 .visually-hidden {
@@ -1803,10 +1850,9 @@ input:focus-visible {
 	}
 
 	.flavor-list {
-		grid-template-columns: repeat(5, minmax(70px, 1fr));
-		gap: 10px;
-		overflow-x: auto;
-		padding: 4px 0 12px;
+		grid-template-columns: repeat(auto-fit, minmax(min(100%, 90px), 1fr));
+		gap: 14px 10px;
+		padding: 4px 0;
 	}
 
 	.flavor-item {
