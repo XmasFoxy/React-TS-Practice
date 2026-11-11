@@ -28,3 +28,4 @@ To seed the product catalog, configure Firebase Admin credentials and run `npm r
 
 - Firebase Hosting: https://react-ts-practice-87181.web.app
 - Deploy with `npx firebase-tools deploy --only hosting --project react-ts-practice-87181`.
+- Vercel Hosting: https://react-ts-practice-6gozqh021-reactic1.vercel.app/
